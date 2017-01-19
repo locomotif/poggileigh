@@ -1,0 +1,23 @@
+.section {
+  @include section; 
+
+  .header {
+    bottom: 0px;
+    position: absolute;
+
+    .title {
+      margin-left: 15px;
+    }
+
+    .sub-title {
+      opacity: 0.60;
+      font-style: italic;
+      margin-top: -5px;
+      margin-left: 15px;
+    }   
+  } 
+
+  .description { 
+    margin: 50px 50px;
+  }   
+}

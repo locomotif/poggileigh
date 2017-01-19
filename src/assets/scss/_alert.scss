@@ -1,0 +1,12 @@
+.alert {
+  td.icon {
+    font-size: set-font-size(2);
+    vertical-align: middle;
+    padding: 10px;
+    width: 56px;
+}
+td.message {
+  vertical-align: middle;
+  font-size: set-font-size(0.9);
+}
+}

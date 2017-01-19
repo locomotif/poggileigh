@@ -1,0 +1,14 @@
+label[required]:after {
+  content: "*";
+  color: red;
+}
+
+button[ng-reflect-disabled].btn {
+  background-color: #999;
+  border-color: #999;
+}
+
+textarea.ng-touched.ng-invalid ,
+input.ng-touched.ng-invalid {
+  border-color: red;
+}

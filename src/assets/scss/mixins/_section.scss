@@ -1,0 +1,6 @@
+@mixin section {
+  background-color: $section-bg;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}

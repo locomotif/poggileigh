@@ -1,0 +1,18 @@
+// This project relies:
+// Bootstrap v4.0.0-alpha.6 (https://getbootstrap.com)
+//
+// I have not developed an methodolgy to work with bootstrap via npm.  Since
+// currently I do not want to make modifications to the bootstrap code for
+// customization, I will be using the following css to override bootstrap
+// styles, etc...
+
+@import "variables";
+@import "mixins";
+
+@import "reboot";
+
+@import "footer";
+@import "navbar";
+@import "forms";
+@import "alert";
+@import "section";

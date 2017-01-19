@@ -1,0 +1,35 @@
+<div class="container-fluid" >
+  <div class="row" >
+    <div 
+      *ngFor="let section of sections; let i = index" 
+      class="section" 
+      [ngStyle]="setStyle(section.style)" >
+      <!-- start section #{{ i }} -->
+      <div class="img" *ngIf="section.img" >
+        <img appParallex 
+        [ngStyle]="setStyle(section.img.style)"
+        src="{{ section.img.src }}" />
+      </div>
+
+      <svg *ngIf="section.overlay" appOverlay >
+      </svg>
+
+      <div class="header" *ngIf="section.title" >
+        <h1 class="row title" >
+          {{section.title }}
+        </h1>
+        <h4 class="row sub-title" >
+          {{ section.subTitle }}
+        </h4>
+      </div>
+
+      <div *ngIf="section.description" class="description" >
+        <p *ngFor="let desc of section.description" >
+        {{ desc }}
+        </p>
+      </div>
+      <!-- end section #{{ i }} -->
+    </div>
+  </div>
+</div>
+

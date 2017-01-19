@@ -1,0 +1,4 @@
+@function set-font-size($p) {
+  @return $font-size-base * $p;
+}
+

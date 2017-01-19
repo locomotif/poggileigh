@@ -1,0 +1,127 @@
+<!--
+Reactive Forms:
+@see https://toddmotto.com/angular-2-forms-reactive
+@todo
+Bind to the user's name, email, and confirm inputs
+Require validation on all inputs
+Show required validation errors
+DIsabling submit until valid
+Submit function
+-->
+<div class="container-fluid" >
+  <div class="row" >
+    <div 
+      *ngFor="let section of sections; let i = index" 
+      class="section" 
+      [ngStyle]="setStyle(section.style)" >
+      <div class="img" *ngIf="section.img" >
+        <img appParallex 
+        [ngStyle]="setStyle(section.img.style)"
+        src="{{ section.img.src }}" />
+      </div>
+
+      <svg *ngIf="section.overlay" appOverlay ></svg>
+
+      <div class="header" *ngIf="section.title" >
+        <h1 class="row title" >
+          {{section.title }}
+        </h1>
+        <h4 class="row sub-title" >
+          {{ section.subTitle }}
+        </h4>
+      </div>
+
+      <div *ngIf="section.description" class="description" >
+        <p *ngFor="let desc of section.description" >
+        {{ desc }}
+        </p>
+      </div>
+    </div>
+
+    <!-- start: contact form -->
+    <div class="section contact-me container" >
+      <div class="row" >
+        <div class="col-sm-8 offset-sm-1">
+
+          <form novalidate 
+            class=""  
+            (ngSubmit)="onSubmit(fromUser)"
+            [formGroup]="fromUser">
+
+            <!-- Start: Errors -->
+            <table 
+              *ngIf="hasEmailError()"
+              class="alert alert-danger col-sm-12" >
+              <tbody>
+                <tr>
+                  <td class="icon" >
+                    <i class="fa fa-exclamation-triangle">&nbsp;</i>
+                  </td>
+                  <td class="message" >
+                    <ul>
+                      <li
+                      *ngIf="fromUser.get('email').hasError('validateEmail') && fromUser.get('email').touched">
+                      Please provide a valid email
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- End: Errors -->
+
+            <!-- Start: Inputs -->
+            <div class="form-group row" >
+              <label for="name" class="col-sm-3 col-form-label" required >Name</label>
+              <div class="col-sm-9" >
+                <input
+                type="text"
+                class="form-control"
+                placeholder="Your full name"
+                formControlName="name">
+              </div>
+            </div>
+
+            <div class="form-group row" >
+              <label for="email" class="col-sm-3 col-form-label" required >Email address</label>
+              <div class="col-sm-9" >
+                <input
+                type="email"
+                class="form-control"
+                placeholder="Your email address"
+                formControlName="email" >
+              </div>
+            </div>
+
+            <div class="form-group row" >
+              <label for="message" class="col-sm-3 col-form-label" required >Message</label>
+              <div class="col-sm-9" >
+                <textarea
+                  class="form-control"
+                  placeholder="Hey lets go bouldering!"
+                  formControlName="message"></textarea>
+              </div>
+            </div>
+            <!-- End: Inputs -->
+
+            <!-- Start: Form Actions -->
+            <div class="form-group row" >
+              <button 
+                type="submit"
+                class="btn btn-primary col-sm-12 btn-large"
+                [disabled]="!fromUser.valid"
+                >Send</button>
+            </div>
+            <!-- End: Form Actions -->
+
+          </form>
+        </div>
+        <div class="col-sm-3">
+          <h3>Bernardo Poggi Leigh</h3>
+          <span>bpoggi@yahoo.com</span>
+        </div>
+      </div>
+    </div>
+    <!-- end: contact form -->
+  </div>
+</div>

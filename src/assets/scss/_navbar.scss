@@ -1,0 +1,25 @@
+.navbar {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  ul.navbar-nav {
+    a.nav-link {
+      color: #FFFFFF;
+      padding: 0 20px;
+  }
+
+  a.nav-link.disabled {
+    opacity: 0.5;
+  }
+} 
+
+button.navbar-toggler .navbar-toggler-icon {
+  cursor: pointer;
+
+  .fa.fa-bars {
+    color: #ACACAC;
+    width: 20px;
+    margin: 0 auto;
+}
+}
+}
+

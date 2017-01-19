@@ -1,0 +1,30 @@
+body {
+  background-color: $body-bg;
+  font-family: $font-family-base;
+  font-style: $font-style-base;
+  font-weight: $font-weight-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $font-color-base;
+}
+
+h1 {
+  font-weight: 200;
+  font-size: set-font-size(3);
+}
+
+h2 {
+  font-weight: 300;
+  font-size: set-font-size(2);
+}
+
+h3 {
+  font-weight: 300;
+  font-size: set-font-size(1.5);
+}
+
+h4 {
+  font-weight: 300;
+  font-size: set-font-size(1.1);
+}
+
