@@ -7,10 +7,12 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import { contactConfig } from './contact.config';
+
 @Injectable()
 export class ContactService {
 
-    private contactUrl = 'http://poggileigh.com/index.php';
+    private contactUrl = contactConfig.emailService.requestUrl;
 
     constructor (private http: Http) {}
 

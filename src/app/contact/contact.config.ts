@@ -1,4 +1,7 @@
 export const contactConfig = Object.freeze({
+    emailService: {
+        requestUrl: "http://resume.poggileigh.com:81/index.php"
+    },
     sections: [
         /*
          * Section C: Category - Software Engineer

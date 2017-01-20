@@ -10,8 +10,9 @@ $development = true;
 $allow = [
     'http://localhost:8010',
     'http://localhost:4200',
-    'http://poggileigh.com:4200',
-    'http://poggileigh.com'
+    'http://resume.poggileigh.com:4200',
+    'http://resume.poggileigh.com:81',
+    'http://resume.poggileigh.com'
 ];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_ORIGIN']), $allow)) {
