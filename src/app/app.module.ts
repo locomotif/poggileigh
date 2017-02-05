@@ -1,16 +1,35 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppRoutingModule } from './app-routing/app-routing.module';
+
+/* App Root */
 import { AppComponent } from './app.component';
+
+/* Feature Modules */
+import { AppRoutingModule } from './app-routing/app-routing.module';
+
+/* Routing Module */
+import { TimelineModule } from './timeline/timeline.module';
+
 import { ContactComponent } from './contact/contact.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { FormErrorDirective, OverlayDirective, ParallexDirective, EmailValidatorDirective, FormControlBlurDirective, FormControlFocusDirective} from './shared/';
+
+// shared
+import { 
+    FormErrorDirective, 
+    OverlayDirective, 
+    ParallexDirective, 
+    EmailValidatorDirective, 
+    FormControlBlurDirective, 
+    FormControlFocusDirective,
+    TimelineConfigService,
+} from './shared/index';
+
 import { SoftwareEngineerComponent } from './software-engineer/software-engineer.component';
 
 @NgModule({
+    bootstrap: [AppComponent],
     declarations: [
         AppComponent,
         ContactComponent,
@@ -21,16 +40,18 @@ import { SoftwareEngineerComponent } from './software-engineer/software-engineer
         FormControlBlurDirective,
         FormControlFocusDirective,
         FormErrorDirective,
-        SoftwareEngineerComponent
+        SoftwareEngineerComponent,
     ],
     imports: [
         AppRoutingModule,
         BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpModule
+        HttpModule,
+        TimelineModule,
     ],
-    providers: [],
-    bootstrap: [AppComponent]
+    exports: [
+    ],
+    providers: [
+        TimelineConfigService
+    ]
 })
 export class AppModule { }

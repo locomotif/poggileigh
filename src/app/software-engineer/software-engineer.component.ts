@@ -6,13 +6,12 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: [
         '../dashboard/dashboard.component.scss',
         './software-engineer.component.scss'
-    ]
+    ],
+    providers: []
 })
 export class SoftwareEngineerComponent implements OnInit {
-
     constructor() { }
 
     ngOnInit() {
     }
-
 }

@@ -87,4 +87,17 @@ export class D2Util {
         let b = p[1] - m*p[0];
         return b;
     }
+
+    /*
+     * Returns width and height of parent element
+     *
+     * @param DOM  element
+     * @return array number[]
+     */
+    static getParentDim (elem: any) {
+        let rect = elem.parentNode.getBoundingClientRect();
+        rect.absTop = rect.top + window.scrollY;
+        rect.absLeft = rect.left + window.scrollX;
+        return rect;
+    }
 }

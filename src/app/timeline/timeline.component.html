@@ -1,0 +1,41 @@
+<svg width="100%" 
+     height="100%" 
+     xmls="http://www.w3.org/2000/svg" 
+     class="timeline-container">
+
+  <g appTimelineXaxis
+     (timelineXAxisControlFlow)="controlFlow($event)"
+
+     [myXAxisConf] ="axisConf"
+     [myObservable] ="observable"
+     [myTransition]="transition"
+     [myTranslate]="translate"
+
+     #xaxis="timelineAxis" 
+     >
+  </g>
+  <g appTimelinePath appTimelineShape
+     (timelinePathControlFlow)="controlFlow($event)"
+     (timelineShapeControlFlow)="controlFlow($event)"
+
+     [myPathConf]="pathConf"
+     [myShapeConf] ="shapeConf"
+     [myObservable] ="observable"
+     [myTranslate]="translate"
+     [myTransition]="transition"
+
+     #shape="timelineShape" 
+     #path="timelinePath" 
+     >
+  </g>
+</svg>
+<app-timeline-message 
+     (timelineMessageControlFlow)="controlFlow($event)"
+
+     [myMessage]="selectedMessage" 
+     [myObservable] ="observable"
+     [myPosition]="messagePosition"
+     [myTranslate]="translate"
+
+     #message="timelineMessage"
+     ></app-timeline-message>
