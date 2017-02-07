@@ -7,7 +7,7 @@ export const dashboardConfig = Object.freeze({
             classes: {"section-wrap": true},
             overlay: true,
             style: {
-                height: "500px",
+                height: "700px",
                 color: "#FFF",
                 "text-align": "right"
             },
@@ -40,12 +40,15 @@ export const dashboardConfig = Object.freeze({
             classes: {"section-wrap": true},
             overlay: false,
             style: {
-                height: "500px",
+                height: "700px",
                 color: "#333333",
                 "text-align": "right"
             },
             img: {
-                src: "/assets/images/Profile-2.jpg"
+                src: "/assets/images/BPL_Profile-1_right.jpg",
+                style: {
+                    "margin-left": "-600px",
+                }
             },
             title: 'Software Engineer',
             subTitle: 'Full Stack Engineer / DevOps'
@@ -74,7 +77,7 @@ export const dashboardConfig = Object.freeze({
             classes: {"section-wrap": true},
             overlay: true,
             style: {
-                height: "500px",
+                height: "700px",
                 color: "#FFFFFF",
                 "text-align": "right"
             },
@@ -109,16 +112,16 @@ export const dashboardConfig = Object.freeze({
             classes: {"section-wrap": true},
             overlay: true,
             style: {
-                height: "400px",
+                height: "700px",
                 color: "#FFF"
             },
             img: {
                 src: "/assets/images/OvergrownWaiting_SM.jpg",
                 style: {
-                    height: "500px",
+                    "margin-left": "-300px"
                 }
             },
-            title: 'Artist'
+            title: 'Fine Artist'
         },
 
         /*

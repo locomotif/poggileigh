@@ -31,7 +31,7 @@ export const resumeConfig: TimelineEvent[] = [
     {
         start: new Date(),
         end: new Date(),
-        message: "\"Thank you for taking the opportunity to learn about Bernardo P. Leigh. This resume timeline was developed while discovering new client side technologies.\" <br/><br/>To move through the timeline you can use any of your error keys &#8592; &#8593; &#8594; &#8595;",
+        message: "\"Thank you for taking the opportunity to learn about Bernardo P. Leigh. This resume timeline was developed while discovering new client side technologies.\" <br/><br/>To move through the timeline you can use any of your error keys &#8592; &#8594;",
         rect: {
             height: 200,
             width: 400

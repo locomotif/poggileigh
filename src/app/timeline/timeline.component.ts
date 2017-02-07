@@ -73,11 +73,21 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     /* d3 transition that can be shared amongs all d3 elements */
     transition: any;
     duration: number = 300;
-    activeTick: number = 0;
 
-    /* Observable*/
+    /* @var activeTick :current location on axis */
+    _activeTick: number = 0;
+    get activeTick(): number { return this._activeTick; }
+    set activeTick(a: number) {
+        let l = this.axisConf ? this.axisConf.data.length : this.config.length();
+        if (a < 0 ) this.activeTick = 0;
+        else if (a >= l ) this.activeTick = --l;
+        else this._activeTick = a;
+    }
+
+    /**
+    * @var observable :rxjs observable object for communication with directives
+    */
     private observable:any;
-    //private subject:any;
 
     private eventCounter: number = 0;
     private renderingQueue: any[] = [];
@@ -89,8 +99,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         private config: TimelineConfigService
     ) {
         this.observable = new RX.BehaviorSubject({target: null, sig: null});
-        // start time line from most recent
-        this.activeTick = this.config.length() - 1;
+        this.activeTick = this.config.length();
         this.setTransition();
     }
 
@@ -102,7 +111,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         /* set timeline axis parameters */
         this.queueXAxisAnimate();
         this.queuePathAnimation();
-        this.queueBubbleAnimation(true);
+        this.queueShapeAnimation(true);
         this.queueShowMessage();
     }
 
@@ -113,16 +122,70 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         this.eventCounter = 0;
     }
 
+    private setTransition(): void {
+        this.transition = {
+            duration: this.duration,
+            ease: d3.easeLinear
+        };
+    }
+    private isRendering(): Boolean {
+        if(this.renderingQueue.length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private updateValues(): void {
+        if(this.timelineShapeDirective.isVisible()) {
+            this.hideMessage();
+            this.queueShapeAnimation(false);
+            this.queueXAxisAnimate();
+            this.queuePathAnimation();
+            this.queueShapeAnimation(true);
+            this.queueShowMessage();
+        } else {
+            this.queueXAxisAnimate();
+            this.queuePathAnimation();
+        }
+    }
+
+    /**
+     * onKeydown if its left or right arrow move tick
+     *  only using 37, and 39
+     *   37 left, 38 up, 39 right, 40 down  
+     *
+     * @param e :window event
+     */
+    @HostListener('window:keydown', ['$event'])
+    private onKeydown(e: any) {
+        if(!this.isRendering()) {
+            let current = this.activeTick;
+            let which = e.which;
+            if( which >= 37 && which <= 40 ) which === 37 || which === 40 ? this.activeTick-- : this.activeTick++;
+            if(current != this.activeTick) {
+                // if active bubble, destruct
+                if(this.timelineShapeDirective.isVisible()) {
+                    this.hideMessage();
+                    this.queueShapeAnimation(false);
+                }
+                this.queuePathAnimation();
+                this.queueShapeAnimation(true);
+                this.queueShowMessage();
+            }
+        }
+    }
+
+    /**
+     * queueXAxisAnimation :schedules the animation of the axis.
+     */
     private queueXAxisAnimate() {
         setTimeout(() => this.scheduleProcess(
-            this.setTimelineAxis.bind(
-                this
-            ), 
+            this.setTimelineAxis.bind(this), 
             this.timelineXAxisDirective, 
             "animate-xaxis"
         ), 0);
     }
-
     private setTimelineAxis() {
         // set the first timeline event start and last timeline event end date
         // x-axis domain variable
@@ -144,19 +207,57 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         }
     }
 
+
+    /**
+     * queuePathAnimation :schedules the animation of path.
+     */
+    private queuePathAnimation() {
+        let tick: number = this.activeTick;
+        setTimeout(() => this.scheduleProcess(
+            this.setTimelinePathCoor.bind( this, tick), 
+            this.timelinePathDirective, 
+            "keypress-down"
+        ), 0);
+    }
     /**
      * set the animated paths coordinates. two points
      * @param tick the scale postion from d3 axis tick
      */
-    private setTimelinePathCoor(tick: number): void {
-        // replace the whole object so that OnChange detects change; otherwise
-        // update directive to use ngDoCheck() and check for change
-        this.pathConf = {xCoor: [[0, 0], [tick, 0]]};
+    private setTimelinePathCoor(
+        tick: number
+    ): void {
+        let x2 = this.timelineXAxisDirective.getActiveTickLocation(tick);
+        this.pathConf = {xCoor: [[0, 0], [x2, 0]]};
     }
 
-    private setTimelineShapeConf(): void {
+    /**
+     * queueShapeAnimation :schedules the animation of a shape
+     */
+    private queueShapeAnimation(build: Boolean) {
+        build = build || false;
+        let tick = this.activeTick;
+        if(build) {
+            setTimeout(() => this.scheduleProcess(
+                this.setTimelineShapeConf.bind(this, tick),
+                this.timelineShapeDirective,
+                "Open bubble"
+            ),0);
+        } else {
+            // Unset the bubble
+            setTimeout(() => {
+                this.scheduleProcess(
+                    this.timelineShapeDirective.unRender.bind(this.timelineShapeDirective),
+                    this.timelineShapeDirective, "Close bubble"
+                );},0);
+        }
+    }
+    /**
+     * set the animated shape
+     * @param tick the scale postion from d3 axis tick
+     */
+    private setTimelineShapeConf(tick: number): void {
         let {x, y} = {x:this.pathConf.xCoor[1][0], y:0};
-        let {width, height} = this.config.getRectDim(this.activeTick);
+        let {width, height} = this.config.getRectDim(tick);
         this.shapeConf = {
             origin: [x,y],
             rect: {
@@ -166,16 +267,60 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         };
     }
 
-    private setTransition(): void {
-        this.transition = {
-            duration: this.duration,
-            ease: d3.easeLinear
-        };
+    /**
+     * queueShowMessage :schedules the animation of the message
+     */
+    private queueShowMessage(): void {
+        let tick = this.activeTick;
+        setTimeout(() => this.scheduleProcess(
+            this.setMessage.bind(this, tick),
+            this.timelineMessageComponent, 
+            "Set Message"
+        ),0);
+    }
+    private hideMessage(): void{
+        setTimeout(() => this.scheduleProcess(
+            () => {this.selectedMessage = ""},
+            this.timelineMessageComponent, 
+            "Unset Message"
+        ),0);
+    }
+    private setMessage(tick: number): void {
+        // get location of shape
+        this.messagePosition = this.timelineShapeDirective.boundingClientRect;
+        this.selectedMessage = this.config.getMessage(tick);
+    }
+
+
+    /**
+     * controlFlow :controls the execution and garbage collection of queued events.
+     * - most queue events are animations that come from directives.
+     * Directives need to signal controlFlow once completed with their task.
+     * - animation events are synchronous
+     */
+    private controlFlow(event: any) {
+        let {action, signature} = event;
+        if(signature) {
+            switch(action){
+                case 'start':
+                    break;
+                case 'interrupt':
+                    this.unsetFromQueue(signature);
+                break;
+                case 'end':
+                    // remove from queue tracker
+                    this.unsetFromQueue(signature);
+                    // call next event if available
+                    setTimeout(()=>{this.callFIFO()},0);
+                break;
+                default:
+                    break;
+            }
+        }
     }
     private queueProcess(obj: any): void {
         this.renderingQueue.push(obj);
     }
-
     private scheduleProcess(obj: any, target: any, name: string): void {
         setTimeout(()=>{
             // register to process
@@ -202,8 +347,6 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
             setTimeout(()=>{callback.call();},0);
         }
     }
-
-
     private unsetFromQueue(obj: any):void {
         let flatten = (item, acc) => item.reduce(((accumulator, currentValue) => {
             currentValue === obj ? null : accumulator.push(currentValue);
@@ -212,138 +355,6 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         this.renderingQueue = flatten(this.renderingQueue, []);
     }
 
-    private isRendering(): Boolean {
-        if(this.renderingQueue.length === 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private updateValues(): void {
-        if(this.timelineShapeDirective.isVisible()) {
-            this.hideMessage();
-            this.queueBubbleAnimation(false);
-            this.queueXAxisAnimate();
-            this.queuePathAnimation();
-            this.queueBubbleAnimation(true);
-            this.queueShowMessage();
-        } else {
-            this.queueXAxisAnimate();
-            this.queuePathAnimation();
-        }
-    }
-
-    @HostListener('window:keydown', ['$event'])
-    private onKeydown(e: any) {
-        if(!this.isRendering()) {
-            /*
-             * 37 left, 38 up, 39 right, 40 down  
-             */
-            let which = e.which;
-            if( which >= 37 && which <= 40 ){
-                which === 37 || which === 40 ? this.activeTick-- : this.activeTick++;
-                if (this.activeTick < 0 ) {
-                    this.activeTick = 0;
-                } else if (this.activeTick > this.axisConf.data.length - 1) {
-                    this.activeTick = this.axisConf.data.length - 1;
-                }
-            }
-
-            // if active bubble, destruct
-            if(this.timelineShapeDirective.isVisible()) {
-                this.hideMessage();
-                this.queueBubbleAnimation(false);
-            }
-            this.queuePathAnimation();
-            this.queueBubbleAnimation(true);
-            this.queueShowMessage();
-        }
-    }
-
-    private queuePathAnimation() {
-        setTimeout(() => this.scheduleProcess(
-            this.updateTimelinePathCoor.bind(
-                this
-            ), 
-            this.timelinePathDirective, 
-            "keypress-down"
-        ), 0);
-    }
-
-    private queueBubbleAnimation(build: Boolean) {
-        build = build || false;
-        if(build) {
-            setTimeout(() => this.scheduleProcess(
-                this.setTimelineShapeConf.bind(
-                    this
-                ), this.timelineShapeDirective, "Open bubble"
-            ),0);
-        } else {
-            // Unset the bubble
-            setTimeout(() => {
-                this.scheduleProcess(
-                    this.timelineShapeDirective.unRender.bind(this.timelineShapeDirective),
-                    this.timelineShapeDirective, "Close bubble"
-                );},0);
-        }
-    }
-
-    private updateTimelinePathCoor(): void {
-        this.setTimelinePathCoor(this.timelineXAxisDirective.getActiveTickLocation(this.activeTick));
-    }
-
-    private controlFlow(event: any) {
-
-        let {action, signature} = event;
-        if(signature) {
-            switch(action){
-                case 'start':
-                    break;
-                case 'interrupt':
-                    console.log(action, signature);
-                this.unsetFromQueue(signature);
-                break;
-                case 'end':
-                    //@todo deal with situation, such as d3 axis, where multiple transitions are executed one execution
-                    //Is it done?
-                    // remove from queue tracker
-                    this.unsetFromQueue(signature);
-                // call next event if available
-                setTimeout(()=>{this.callFIFO()},0);
-                break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private hideMessage(): void{
-        setTimeout(() => this.scheduleProcess(
-            this.unsetMessage.bind(
-                this
-            ),
-            this.timelineMessageComponent, 
-            "Unset Message"
-        ),0);
-    }
-    private queueShowMessage(): void {
-        setTimeout(() => this.scheduleProcess(
-            this.setMessage.bind(this),
-            this.timelineMessageComponent, 
-            "Set Message"
-        ),0);
-    }
-
-    private unsetMessage(): void {
-        this.selectedMessage = "";
-    }
-
-    private setMessage(): void {
-        // get location of shape
-        this.messagePosition = this.timelineShapeDirective.boundingClientRect;
-        this.selectedMessage = this.config.getMessage(this.activeTick);
-    }
 }
 
 export interface controlFlow {

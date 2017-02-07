@@ -43,11 +43,20 @@ svg .x-axis {
 
 svg .timeline {
 
-  path { 
+  path.timeline-shape { 
+    stroke: url(#gradient-shape);
+    stroke-linecap: round;
+    stroke-width: 2;
+    fill: none;
+  }
+  path.timeline-path { 
     stroke: #FFF;
     stroke-linecap: round;
     stroke-width: 2;
     fill: none;
   }
-
+  rect.timeline-rect { 
+  }
 }
+
+

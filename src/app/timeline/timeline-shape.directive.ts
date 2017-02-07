@@ -99,6 +99,7 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
             error: (err) => console.log(err),
             complete: () => {console.log("complete notified");},
         };
+        this.setGradient();
     }
 
 
@@ -131,6 +132,41 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
+    private setGradient() {
+        let defs = d3.select(this.el.nativeElement).append("defs");
+        let gradient = defs.append("linearGradient")
+        .attr("id", "gradient-shape")
+        .attr("x1", "0%")
+        .attr("x2", "0%")
+        .attr("y1", "0%")
+        .attr("y2", "100%");
+
+        gradient.append("stop")
+        .attr('class', 'start')
+        .attr("offset", "0%")
+        .attr("stop-color", "#CCC")
+        .attr("stop-opacity", 1)
+
+        gradient.append("stop")
+        .attr('class', 'end')
+        .attr("offset", "90%")
+        .attr("stop-color", "#000")
+        .attr("stop-opacity", 1)
+
+        gradient.append("stop")
+        .attr('class', 'end')
+        .attr("offset", "99%")
+        .attr("stop-color", "#FFF")
+        .attr("stop-opacity", 1)
+
+        gradient.append("stop")
+        .attr('class', 'end')
+        .attr("offset", "100%")
+        .attr("stop-color", "#FFF")
+        .attr("stop-opacity", 1)
+
+    }
+
     
     private setState(state: number): void {
         this.state = state;
