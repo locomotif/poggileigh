@@ -7,6 +7,7 @@ import {
     OnInit,
     OnChanges,
     OnDestroy,
+    ViewEncapsulation,
 } from '@angular/core';
 
 import { controlFlow } from '../index';
@@ -15,6 +16,7 @@ import * as d3 from "d3/index";
 @Component({
     selector: 'app-timeline-message',
     templateUrl: './timeline-message.component.html',
+    encapsulation: ViewEncapsulation.None, 
     exportAs: "timelineMessage",
     styleUrls: ['./timeline-message.component.scss']
 })

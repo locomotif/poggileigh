@@ -1,3 +1,5 @@
+@import "../../assets/scss/global";
+
 :host {
   display: block;
   width: 100%;
@@ -10,7 +12,6 @@
 }
 svg.timeline-container {
   @include svg;
-  background-color: #989898;
 }
 
 svg.bubble-container {
@@ -42,21 +43,36 @@ svg .x-axis {
 }
 
 svg .timeline {
-
   path.timeline-shape { 
-    stroke: url(#gradient-shape);
+    stroke: lighten($steel, 5%);
     stroke-linecap: round;
-    stroke-width: 2;
-    fill: none;
+    stroke-width: 1;
+    fill: lighten($steel, 1%);
   }
+
   path.timeline-path { 
-    stroke: #FFF;
+    stroke: darken($steel, 50%);
     stroke-linecap: round;
-    stroke-width: 2;
+    stroke-width: 1;
     fill: none;
   }
   rect.timeline-rect { 
   }
 }
 
+.x-axis  {
+  path.domain {
+    stroke: lighten($tan, 7%);
+    stroke-width: 2;
+  }
+  .tick text {
+    fill: darken($white, 20%);
+    stroke-width: 0;
+    cursor: pointer;
+  }
+  .tick line {
+    stroke: lighten($tan, 7%);
+    stroke-width: 2;
+  }
+}
 

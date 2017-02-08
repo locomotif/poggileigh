@@ -5,10 +5,7 @@
 // currently I do not want to make modifications to the bootstrap code for
 // customization, I will be using the following css to override bootstrap
 // styles, etc...
-
-@import "variables";
-@import "mixins";
-
+@import "global";
 @import "reboot";
 
 @import "footer";

@@ -32,7 +32,11 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
     private signature: any;
 
     @Output("timelineXAxisControlFlow") transitionCycle: EventEmitter<controlFlow> = new EventEmitter<controlFlow>();
+    @Output("myGoToTick") goToTick: EventEmitter<number> = new EventEmitter<number>();
 
+
+    private dateValue: Date[];
+    private dateIdRef: number[];
 
     private initialized: Boolean = false;
     private scale: any;
@@ -72,6 +76,10 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
         if(prop.translate) {
             this.transform = "translate(" + this.translate[0] + "," + this.translate[1] + ")";
         }
+        if(prop.conf && this.conf) {
+            this.setDates();
+        }
+
         if (!this.initialized) {
             this.subscription = this.observable.subscribe(this.observer);
             this.initialized = true;
@@ -93,7 +101,7 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
         // create the axis
         this.axis = d3.axisBottom(this.scale)
         .tickPadding(8)
-        .tickValues(this.conf.data)
+        .tickValues(this.dateValue)
         .tickFormat(d3.timeFormat(this.parseDate))
         .tickSizeOuter(0);
 
@@ -106,6 +114,7 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
         .ease(d3.easeLinear)
         .call(this.axis)
         .selectAll("text")
+        .attr("text-id", (d, i) => {return this.conf.data[i]['id']})
         .attr("y", 0)
         .attr("x", 9)
         .attr("dy", ".35em")
@@ -115,10 +124,6 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
         .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
         .on("end", this.transitionEvents.bind(this, "end")) ;
 
-        /*
-        // Bind events ticks
-        this.axisGroup.selectAll('.x-axis .tick').on("click", function(){console.log(arguments);});
-         */
     }
 
     private transitionEvents(action: string) {
@@ -133,6 +138,9 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
                 /* add logic, when necessary */
             break;
             case "end":
+                let i: number = arguments[2];
+                d3.select(arguments[3][i]).on("click", this.toTick.bind(this));
+                
                 if(--this.transitionCount <= 0) {
                     // parent component is handling the transition life cycle
                     this.transitionCycle.emit({
@@ -144,6 +152,11 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
             default:
                 break;
         }
+    }
+
+    private toTick(d: Date, i: number, elem: Array<any>) {
+        let id = elem[0].getAttribute('text-id');
+        this.goToTick.emit(this.dateIdRef[id]);
     }
 
     /*
@@ -158,8 +171,17 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
         .clamp(true);
     }
 
-    getActiveTickLocation(index: number): number {
-        return this.scale(this.conf.data[index]);
+    private setDates(): void {
+        this.dateValue = [];
+        this.dateIdRef = [];
+        this.conf.data.forEach((e,i) => {
+            this.dateValue.push(e['date']); 
+            this.dateIdRef[e['id']] = i;
+        });
+    }
+
+    getActiveTickPosition(index: number): number {
+        return this.scale(this.conf.data[index]['date']);
     }
 
 }

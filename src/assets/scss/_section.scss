@@ -1,3 +1,4 @@
+/* testing */
 .section {
   @include section; 
 
@@ -20,4 +21,8 @@
   .description { 
     margin: 50px 50px;
   }   
+}
+
+.section.section-a {
+  background-color: darken($steel, 10%);
 }

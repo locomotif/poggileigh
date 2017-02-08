@@ -2,3 +2,26 @@
   @return $font-size-base * $p;
 }
 
+@function set-line-height($p) {
+  @return $line-height-base * $p;
+}
+
+@function set-word-spacing($p) {
+  @return $word-spacing-base * $p;
+}
+
+@function set-letter-spacing($p) {
+  @return $letter-spacing-base * $p;
+}
+
+@mixin font-size($p) {
+  font-size: set-font-size($p);
+  line-height: set-line-height($p);
+}
+
+@mixin paragraph($p) {
+    @include font-size($p);
+    word-spacing: set-word-spacing($p);
+    letter-spacing: set-letter-spacing($p);
+
+}

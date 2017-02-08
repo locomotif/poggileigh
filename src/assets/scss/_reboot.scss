@@ -1,5 +1,5 @@
 body {
-  background-color: $body-bg;
+  background-color: lighten($tan,7%);
   font-family: $font-family-base;
   font-style: $font-style-base;
   font-weight: $font-weight-base;
@@ -28,3 +28,7 @@ h4 {
   font-size: set-font-size(1.1);
 }
 
+a:hover, a:active, a:visited, a {
+  color: $orange;
+  text-decoration: none;
+}

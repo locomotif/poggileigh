@@ -180,7 +180,7 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
         let color: string;
         this.setDims();
         if(this.state === state.VISIBLE) {
-            color = "#232323";
+            color = "#383838";
             // ensure we are starting from correct point
             this.setShape(true);
             this.path.attr("d", this.shape.toString())
@@ -198,7 +198,6 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
         .duration(this.transitionConf.duration)
         .ease(this.transitionConf.ease)
         .attr("d", this.shape.toString())
-        .style("fill", color)
         .on("start", this.transitionEvents.bind(this, "start"))
         .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
         .on("end", this.transitionEvents.bind(this, "end"));

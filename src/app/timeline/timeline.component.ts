@@ -85,8 +85,8 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     }
 
     /**
-    * @var observable :rxjs observable object for communication with directives
-    */
+     * @var observable :rxjs observable object for communication with directives
+     */
     private observable:any;
 
     private eventCounter: number = 0;
@@ -99,7 +99,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         private config: TimelineConfigService
     ) {
         this.observable = new RX.BehaviorSubject({target: null, sig: null});
-        this.activeTick = this.config.length();
+        this.activeTick = this.config.length() - 4;
         this.setTransition();
     }
 
@@ -189,8 +189,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     private setTimelineAxis() {
         // set the first timeline event start and last timeline event end date
         // x-axis domain variable
-        let allDates: Date[] = this.config.getAllDates();
-        let xAxisDomain  = [allDates[0], allDates[allDates.length-1]];
+        let allDates: any = this.config.getAllDates();
+
+        let xAxisDomain  = [allDates[0].date, allDates[allDates.length-1].date];
 
         // set the range. x-axis range. how long does it need to be
         let {width} = this.el.nativeElement.getBoundingClientRect();
@@ -226,7 +227,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     private setTimelinePathCoor(
         tick: number
     ): void {
-        let x2 = this.timelineXAxisDirective.getActiveTickLocation(tick);
+        let x2 = this.timelineXAxisDirective.getActiveTickPosition(tick);
         this.pathConf = {xCoor: [[0, 0], [x2, 0]]};
     }
 
@@ -281,7 +282,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     private hideMessage(): void{
         setTimeout(() => this.scheduleProcess(
             () => {this.selectedMessage = ""},
-            this.timelineMessageComponent, 
+                this.timelineMessageComponent, 
             "Unset Message"
         ),0);
     }
@@ -291,6 +292,20 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         this.selectedMessage = this.config.getMessage(tick);
     }
 
+    private goToTick(event: any) {
+        let current = this.activeTick;
+        this.activeTick = event;
+        if(current != this.activeTick) {
+            // if active bubble, destruct
+            if(this.timelineShapeDirective.isVisible()) {
+                this.hideMessage();
+                this.queueShapeAnimation(false);
+            }
+            this.queuePathAnimation();
+            this.queueShapeAnimation(true);
+            this.queueShowMessage();
+        }
+    }
 
     /**
      * controlFlow :controls the execution and garbage collection of queued events.
@@ -310,8 +325,8 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
                 case 'end':
                     // remove from queue tracker
                     this.unsetFromQueue(signature);
-                    // call next event if available
-                    setTimeout(()=>{this.callFIFO()},0);
+                // call next event if available
+                setTimeout(()=>{this.callFIFO()},0);
                 break;
                 default:
                     break;
