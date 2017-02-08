@@ -25,13 +25,24 @@ export class ContactComponent implements OnInit {
     public fromUser: FormGroup;
 
 
+    private imgLoaded: Boolean[] =[];
     private sections = contactConfig.sections;
     private activeFormControl: any = {};
     private payload: any;
 
     constructor(
         private contactService: ContactService
-    ) { } 
+    ) {
+        // preload images
+        for(let i in this.sections) {
+            this.imgLoaded.push(false);
+            if(this.sections[i].hasOwnProperty('img')) {
+                let image = new Image();
+                image.onload = () =>  {this.imgLoaded[i] = true}
+                image.src = this.sections[i]['img']['src'];
+            } 
+        }
+    } 
 
     ngOnInit () {
         window.scrollTo(0,0);

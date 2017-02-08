@@ -15,26 +15,12 @@ export const contactConfig = Object.freeze({
                 "text-align": "right"
             },
             img: {
-                src: "/assets/images/Profile-2.jpg",
+                src: "/assets/images/BPL_Profile-1_right.jpg",
                 style: {
+                    "margin-left": "-200px",
                 }
             },
             title: 'Let\'s collaborate!',
-        },
-
-        /*
-         * Section D: Category - About Software Engineering
-         */
-        /*
-        {
-            classes: {"fg-black": true},
-            overlay: false,
-            style: {
-            },
-            description: [
-                "Thanks for taking the time to learn about me.  I look forward to the opportunity to collaborate on a new or legacy project -- or just have drink."
-            ],
         }
-        */
     ],
 });

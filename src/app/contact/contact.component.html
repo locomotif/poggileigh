@@ -16,8 +16,16 @@ Submit function
       [ngStyle]="setStyle(section.style)" >
       <div class="img" *ngIf="section.img" >
         <img appParallex 
+        #parallex="parallex"
+        *ngIf="imgLoaded[i]"
         [ngStyle]="setStyle(section.img.style)"
         src="{{ section.img.src }}" />
+
+        <img 
+        *ngIf="!imgLoaded[i]"
+        class="loading"
+        src="/assets/images/loading.gif" />
+
       </div>
 
       <svg *ngIf="section.overlay" appOverlay ></svg>
