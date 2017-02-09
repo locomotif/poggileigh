@@ -1,4 +1,5 @@
 import { 
+    AfterViewChecked,
     Component,
     OnInit, 
     OnDestroy,
@@ -13,18 +14,26 @@ import * as RX from 'rxjs/Rx';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
 
+    private removeSplash: Boolean = true;
     private observable: any;
 
     constructor() {}
-    ngOnInit() { 
+    ngOnInit(): void { 
         this.observable = RX.Observable.fromEvent(window,'resize')
         .debounceTime(200)
         .subscribe((x) => { this.updateImageDims() });
     }
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.observable.unsubscribe();
+    }
+
+    ngAfterViewChecked(): void {
+        if(this.removeSplash) {
+            this.removeSplash = false;
+            document.getElementById("splash").remove();
+        }
     }
 
     @ViewChildren('parallex')

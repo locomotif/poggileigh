@@ -1,7 +1,36 @@
-.footer {
-  padding-top: 20px;
-  min-height: 200px;
-  color: $font-color-base;
-  text-align: center;
+.content {
+  min-height: 100%;
+}
+.content:after {
+  content: "";
+  display: block;
+  height: 50px;
 }
 
+.footer {
+  background-color: $blue;
+  width: 100%;
+  height: 50px;
+  opacity: 0.9;
+
+  .footer-content {
+    @include font-size(1);
+    padding: 0 10px;
+    width: 100%;
+    color: darken($white, 30%);
+
+    ul li {
+      float: right;
+      height: 18px;
+      padding-right: 10px;
+
+    }
+    li.fa {
+      margin-top: 8px;
+
+    }
+    a {
+      color: darken($white, 30%);
+    }
+  }
+}
