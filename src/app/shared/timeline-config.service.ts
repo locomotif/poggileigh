@@ -20,23 +20,57 @@ export class TimelineConfigService {
         return this.data;
     }
 
-    getMessage(index: number): string {
-        return typeof this.data[index].message == "undefined" ? "" :  this.data[index].message;
+    getMessage(itemId: string): string {
+        let index = this.eleRef.indexOf(itemId);
+        if ( index !== -1 ) {
+            return typeof this.data[index].message == "undefined" ? "" :  this.data[index].message;
+        } else {
+            throw new Error("itemId: " + itemId + " doesn't exist");
+        }
+    }
+
+    getEventTypes(): string[] {
+        let filter = (item, acc) => item.reduce(((accumulator, currentValue, currentIndex, arr) => {
+            if(accumulator.indexOf(currentValue['eventType']) < 0) {
+                accumulator.push(currentValue['eventType']);
+            }
+            return accumulator;
+        }), acc);
+        return filter(this.data, []);
     }
 
     //@todo make a type for this
-    getRectDim(index: number): any {
-        return this.data[index].rect ? this.data[index].rect : {width: 400, height: 200 };
+    getRectDim(itemId: string): any {
+        let index = this.eleRef.indexOf(itemId);
+        if ( index !== -1 ) {
+            return this.data[index].rect ? this.data[index].rect : {width: 400, height: 200 };
+        } else {
+            throw new Error("itemId: " + itemId + " doesn't exist");
+        }
     }
 
-    getAllDates(select?: string): Date[] {
-        select = select || "start";
+    /**
+     * getStartDates can filter: education and work experience
+     * @param string[] select [education, experience]
+     * @return Date[]
+     */
+    getStartDates(select?: string[]): Date[] {
+        select = select || [];
         let filter = (item, acc) => item.reduce(((accumulator, currentValue, currentIndex, arr) => {
-            let obj = {id: this.eleRef[currentIndex], date: currentValue[select]};
 
-            // If date is already in array do not add
-            if (accumulator[accumulator.length-1] != currentValue[select]) {
-                accumulator.push(obj);
+            // Currently dates need to be unique. I haven't dealt with the edge
+            // condition where I would have overlapping dates. If date is
+            // already in array do not include the object
+            if (
+                accumulator[accumulator.length-1] != currentValue['start']
+                &&
+                (select.length === 0 || select.indexOf(currentValue['eventType']) !== -1)
+            ) {
+                accumulator.push({
+                    id: this.eleRef[currentIndex], 
+                    date: currentValue['start'],
+                    eventType: currentValue['eventType']
+                });
             }
             return accumulator;
         }), acc);

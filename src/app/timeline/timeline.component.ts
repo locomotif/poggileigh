@@ -32,7 +32,7 @@ import { TimelineConfigService } from '../shared/index';
     // them.  Then add these attributes to all generated nodes by d3.  This
     // paramter will remove that encapsulation, and I can continue to write my
     // css in the components css file.
-    encapsulation: ViewEncapsulation.Native, 
+    encapsulation: ViewEncapsulation.None, 
 
     styleUrls: ['./timeline.component.scss'],
     providers: []
@@ -58,7 +58,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     timelineMessageComponent: any;
 
     /* svg g transpose */
-    translate: number[] = [10,500];
+    translate: number[] = [10,550];
 
     /* Timeline axis directive paramters */
     axisConf: xAxisConf;
@@ -82,12 +82,19 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         if (a < 0 ) this.activeTick = 0;
         else if (a >= l ) this.activeTick = --l;
         else this._activeTick = a;
+        this.activeTickId = this.timelineXAxisDirective.getTickId(this._activeTick);
     }
+    /* @var activeTickId :id of the active tick.*/
+    private activeTickId: string = '';
+
 
     /**
      * @var observable :rxjs observable object for communication with directives
      */
     private observable:any;
+    private observer: any;
+    private subscription: any;
+    private signature: any;
 
     private eventCounter: number = 0;
     private renderingQueue: any[] = [];
@@ -98,21 +105,31 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         private el: ElementRef,
         private config: TimelineConfigService
     ) {
+        /* initiate the observable */
         this.observable = new RX.BehaviorSubject({target: null, sig: null});
-        this.activeTick = this.config.length() - 4;
+
+        /* initiate the observable */
+        this.observer = {
+            next: (x) => { 
+                if(x.target === this) this.signature = x; 
+            },
+            error: (err) => console.log(err),
+            complete: () => {console.log("complete notified");},
+        };
+        /* subcribe to observable */
+        this.subscription = this.observable.subscribe(this.observer);
+
         this.setTransition();
     }
 
     ngOnInit() {
         RX.Observable.fromEvent(window,'resize')
-        .debounceTime(200)
+        .throttleTime(200)
         .subscribe((x) => {this.updateValues()});
 
         /* set timeline axis parameters */
-        this.queueXAxisAnimate();
-        this.queuePathAnimation();
-        this.queueShapeAnimation(true);
-        this.queueShowMessage();
+        this.queueXAxisAnimate(['projects']);
+        this.queueDefaultPosition();
     }
 
     ngAfterContentInit() {
@@ -179,18 +196,19 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     /**
      * queueXAxisAnimation :schedules the animation of the axis.
      */
-    private queueXAxisAnimate() {
+    private queueXAxisAnimate(filter?: string[]) {
+        filter = filter || [];
         setTimeout(() => this.scheduleProcess(
-            this.setTimelineAxis.bind(this), 
+            this.setTimelineAxis.bind(this, filter), 
             this.timelineXAxisDirective, 
             "animate-xaxis"
         ), 0);
     }
-    private setTimelineAxis() {
+    private setTimelineAxis(filter: string[]) {
+
         // set the first timeline event start and last timeline event end date
         // x-axis domain variable
-        let allDates: any = this.config.getAllDates();
-
+        let allDates: any = this.config.getStartDates(filter);
         let xAxisDomain  = [allDates[0].date, allDates[allDates.length-1].date];
 
         // set the range. x-axis range. how long does it need to be
@@ -208,6 +226,28 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         }
     }
 
+    /**
+     * Sets the default location to start the timeline with a message. This
+     * will only happen once, after that the user will trigger the events
+     */
+    private queueDefaultPosition(): void {
+        setTimeout(() => this.scheduleProcess(
+            this.setDefaultTick.bind(this),
+            this, 
+            "default tick location"
+        ), 0);
+    }
+    private setDefaultTick(): void {
+        //this.activeTick = this.timelineXAxisDirective.tickCount - 1;
+        this.activeTick = 0;
+        this.controlFlow({
+            action: "end",
+            signature: this.signature
+        });
+        this.queuePathAnimation();
+        this.queueShapeAnimation(true);
+        this.queueShowMessage();
+    }
 
     /**
      * queuePathAnimation :schedules the animation of path.
@@ -236,10 +276,10 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
      */
     private queueShapeAnimation(build: Boolean) {
         build = build || false;
-        let tick = this.activeTick;
+        let tickId = this.activeTickId;
         if(build) {
             setTimeout(() => this.scheduleProcess(
-                this.setTimelineShapeConf.bind(this, tick),
+                this.setTimelineShapeConf.bind(this, tickId),
                 this.timelineShapeDirective,
                 "Open bubble"
             ),0);
@@ -256,9 +296,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
      * set the animated shape
      * @param tick the scale postion from d3 axis tick
      */
-    private setTimelineShapeConf(tick: number): void {
+    private setTimelineShapeConf(tickId: string): void {
         let {x, y} = {x:this.pathConf.xCoor[1][0], y:0};
-        let {width, height} = this.config.getRectDim(tick);
+        let {width, height} = this.config.getRectDim(tickId);
         this.shapeConf = {
             origin: [x,y],
             rect: {
@@ -272,9 +312,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
      * queueShowMessage :schedules the animation of the message
      */
     private queueShowMessage(): void {
-        let tick = this.activeTick;
+        let tickId = this.activeTickId;
         setTimeout(() => this.scheduleProcess(
-            this.setMessage.bind(this, tick),
+            this.setMessage.bind(this, tickId),
             this.timelineMessageComponent, 
             "Set Message"
         ),0);
@@ -286,15 +326,15 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
             "Unset Message"
         ),0);
     }
-    private setMessage(tick: number): void {
+    private setMessage(tickId: string): void {
         // get location of shape
         this.messagePosition = this.timelineShapeDirective.boundingClientRect;
-        this.selectedMessage = this.config.getMessage(tick);
+        this.selectedMessage = this.config.getMessage(tickId);
     }
 
     private goToTick(event: any) {
         let current = this.activeTick;
-        this.activeTick = event;
+        this.activeTick = event.tick;
         if(current != this.activeTick) {
             // if active bubble, destruct
             if(this.timelineShapeDirective.isVisible()) {
@@ -305,6 +345,18 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
             this.queueShapeAnimation(true);
             this.queueShowMessage();
         }
+    }
+
+    private applyFilter(e):void {
+        this.flushQueue();
+        // how about we clear the queue
+        // if active bubble, destruct
+        if(this.timelineShapeDirective.isVisible()) {
+            this.hideMessage();
+            this.queueShapeAnimation(false);
+        }
+        this.queueXAxisAnimate(e);
+        this.queueDefaultPosition();
     }
 
     /**
@@ -323,10 +375,11 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
                     this.unsetFromQueue(signature);
                 break;
                 case 'end':
-                    // remove from queue tracker
-                    this.unsetFromQueue(signature);
+                // remove from queue tracker
+                this.unsetFromQueue(signature);
                 // call next event if available
                 setTimeout(()=>{this.callFIFO()},0);
+
                 break;
                 default:
                     break;
@@ -337,11 +390,15 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         this.renderingQueue.push(obj);
     }
     private scheduleProcess(obj: any, target: any, name: string): void {
+        setTimeout(() => this.registerProcess( obj, target, name) ,0);
+    }
+
+    private registerProcess(obj: any, target: any, name: string) {
         setTimeout(()=>{
             // register to process
             //
             // sig is just an incremented number.
-            // thoughts were that I can create unique has to distinguish this
+            // thoughts were that I can create unique id to distinguish this
             // object from other similar requests. I believe that incrementing the
             // sig property should satisfy enough difference.
             let signature = {target: target, sig: this.eventCounter++};
@@ -368,6 +425,11 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
             return accumulator
         }), acc);
         this.renderingQueue = flatten(this.renderingQueue, []);
+    }
+
+    private flushQueue() {
+        this.processQueue = [];
+        this.renderingQueue = [];
     }
 
 }

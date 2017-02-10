@@ -10,9 +10,11 @@ import {
     TimelineShapeDirective,
 } from './index';
 import { TimelineMessageComponent } from './timeline-message/timeline-message.component';
+import { TimelineFilterComponent } from './timeline-filter/timeline-filter.component';
 
 @NgModule({
   imports: [
+    ReactiveFormsModule,
     SharedModule
   ],
   declarations: [
@@ -20,7 +22,8 @@ import { TimelineMessageComponent } from './timeline-message/timeline-message.co
     TimelineXaxisDirective,
     TimelinePathDirective,
     TimelineShapeDirective,
-    TimelineMessageComponent
+    TimelineMessageComponent,
+    TimelineFilterComponent
   ],
   providers: [],
   exports: [
