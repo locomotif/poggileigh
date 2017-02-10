@@ -1,0 +1,6 @@
+// _global.scss should only provide mixins and fucntions that can be included
+// in any file that requires them.  For the angular 2 project, since components
+// can have scss transpiled to css, we can use this file to be included in
+// those files.
+@import "variables";
+@import "mixins";

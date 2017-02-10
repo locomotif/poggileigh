@@ -1,0 +1,59 @@
+@import "../../../assets/scss/global";
+$myRadius: 3px;
+
+.timeline-filter {
+  position: absolute;
+  margin-top: 10px;
+  right: 10px;
+  top: $navbar-height;
+  background-color: $steel;
+  border-radius: $myRadius;
+  text-align: center;
+  height: 25px;
+  min-width: 35px;
+  line-height: 25px;
+
+  .open,
+  .select {
+    font-size: set-font-size(0.75);
+    border-top-left-radius: $myRadius;
+    border-bottom-left-radius: $myRadius;
+    background-color: $blue;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 20px;
+    height: 25px;
+    line-height: 25px;
+    opacity: 1;
+  }
+
+  .icon {
+    padding-left: 25px;
+    position: relative;
+    width: 55px;
+    cursor: pointer;
+
+    .fa.fa-bars {
+      color: $blue;
+      width: 20px;
+    }
+  }
+
+  .filter {
+    padding: 0 10px 0 40px;
+    font-size: set-font-size(0.75);
+    position: relative;
+
+    .checkbox input,
+    .checkbox label {
+      margin-right: 5px;
+      color: lighten($tan, 7%);
+    }
+
+    .fa.fa-chevron-right {
+      padding-left: 5px;
+      width: 20px;
+    }
+  }
+}
