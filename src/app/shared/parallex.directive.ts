@@ -9,6 +9,7 @@ import {
 
 import { parallexConfig } from './parallex.config'; 
 import { D2Util } from './d2.util';
+import * as RX from 'rxjs/Rx';
 
 @Directive({
     selector: '[appParallex]',
@@ -27,9 +28,7 @@ export class ParallexDirective implements OnInit {
     get aspectRatio(): number {return this._aspectRatio}
     set aspectRatio(a) {this._aspectRatio = a}
 
-    _windowAspecRatio: number;
-    get windowAspectRatio(): number {return this._windowAspecRatio}
-    set windowAspectRatio(a) {this._windowAspecRatio = a}
+    private observable: any;
 
     private index: number;
     private origOffsetTop: number;
@@ -60,12 +59,11 @@ export class ParallexDirective implements OnInit {
                 this.setImage();
                 /* set the location of image based on current scroll-y position */
                 this.moveImage();
-            });
-    }
 
-    @HostListener('window:scroll')
-    private onScroll() {
-        if(this.image) this.moveImage(); 
+                this.observable = RX.Observable.fromEvent(window,'scroll')
+                .debounceTime(1)
+                .subscribe((x) => { if(this.image) this.moveImage() });
+            });
     }
 
     /**
