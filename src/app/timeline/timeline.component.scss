@@ -65,6 +65,18 @@ svg .timeline {
     stroke-width: 0;
     cursor: pointer;
   }
+  .tick text[text-color="myBlue"] {
+    fill: $blue;
+  }
+  .tick text[text-color="myOrange"] {
+    fill: $orange;
+  }
+  .tick text[text-color="myGreen"] {
+    fill: $green;
+  }
+  .tick text[text-color="myWhite"] {
+    fill: $white;
+  }
   .tick line {
     stroke: lighten($tan, 7%);
     stroke-width: 2;

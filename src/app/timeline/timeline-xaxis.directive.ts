@@ -49,6 +49,14 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
     // @todo read more about why, transition end is really not the end. probably to allow chaining?
     // this is hack so I know when transitions are completed to finish
     private transitionCount: number = 0;
+    // d3js will change common colors to rgb. So if I want an attribute with value orange d3js will change to rgb(x,x,x)
+    private labelColor: any = {
+        introduction: 'myWhite',
+        projects: "myOrange",
+        experience: 'myBlue',
+        education: 'myGreen',
+    }
+
 
     constructor(
         private el: ElementRef
@@ -110,20 +118,26 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
             .duration(300)
             .call(this.axis)
             .selectAll("text")
-            .attr("text-id", (d, i) => {
-                if(this.conf.data[i]) {
-                    return this.conf.data[i]['id'];
-                } else{
-                    return "";
-                }})
-                    .attr("y", 0)
-                    .attr("x", 9)
-                    .attr("dy", ".35em")
-                    .attr("transform", "rotate(90)")
-                    .style("text-anchor", "start")
-                    .on("start", this.transitionEvents.bind(this, "start"))
-                    .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
-                    .on("end", this.transitionEvents.bind(this, "end")) ;
+            // not sure why the internal data is not matching the updated
+            // tickValues to this.dataValue. For now I have to do some garbage
+            // collection
+            .filter((d,i) => {
+                for(let j in this.dateValue){
+                    if (d === this.dateValue[j]){
+                        return true;
+                    }
+                }
+            })
+            .attr("text-id", (d, i) => {if(this.conf.data[i]) return this.conf.data[i]['id']; else return "";})
+            .attr("text-color", (d, i) => {if(this.conf.data[i]) return this.labelColor[this.conf.data[i]['eventType']]; else return "myWhite";})
+                 .attr("y", 0)
+                 .attr("x", 9)
+                 .attr("dy", ".35em")
+                 .attr("transform", "rotate(90)")
+                 .style("text-anchor", "start")
+                 .on("start", this.transitionEvents.bind(this, "start"))
+                 .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
+                 .on("end", this.transitionEvents.bind(this, "end")) ;
         } else {
             this.rendered = true;
             this.axis = d3.axisBottom(this.scale)
@@ -142,6 +156,7 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
             .call(this.axis)
             .selectAll("text")
             .attr("text-id", (d, i) => {return this.conf.data[i]['id']})
+            .attr("text-color", (d, i) => {return this.labelColor[this.conf.data[i]['eventType']]})
             .attr("y", 0)
             .attr("x", 9)
             .attr("dy", ".35em")
@@ -168,7 +183,7 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
             /* add logic, when necessary */
             break;
             case "end":
-            let i: number = arguments[2];
+                let i: number = arguments[2];
             d3.select(arguments[3][i]).on("click", this.toTick.bind(this));
 
             if(--this.transitionCount <= 0) {
@@ -199,7 +214,8 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
         return key;
     }
 
-    /*
+    /**
+     * setLinearScale: set the linear scale of the x-axis
      * "Scales are functions that map from an input domain to an output range"
      * - Scales are functions
      * - Normalization is the process of mapping a numeric value to a new value between 0 and 1
@@ -211,6 +227,10 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
         .clamp(true);
     }
 
+    /**
+     * setDates: This updates local values used to determine th scale and
+     * location of ticks on the x-axis
+     */
     private setDates(): void {
         this.dateValue = [];
         this.dateIdRef = [];

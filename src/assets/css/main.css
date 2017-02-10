@@ -28,6 +28,75 @@ a:hover, a:active, a:visited, a {
 		color: #F6851F;
 		text-decoration: none; }
 
+/**
+  * Colors are defined in _variables.scss. This is a means to assign those variables just to classes
+  */
+.grey {
+		color: #787878; }
+
+.white {
+		color: #FEFEFE; }
+
+.lime {
+		color: #b0eb00; }
+
+.green {
+		color: #9EAD4A; }
+
+.red {
+		color: #BB374A; }
+
+.blue {
+		color: #0084BF; }
+
+.brown {
+		color: #8C4E39; }
+
+.orange {
+		color: #F6851F; }
+
+.tan {
+		color: #F9E3C2; }
+
+.osx {
+		color: #D1D7CD; }
+
+.steel {
+		color: #474D5D; }
+
+.grey-bg {
+		background-color: #787878; }
+
+.white-bg {
+		background-color: #FEFEFE; }
+
+.lime-bg {
+		background-color: #b0eb00; }
+
+.green-bg {
+		background-color: #9EAD4A; }
+
+.red-bg {
+		background-color: #BB374A; }
+
+.blue-bg {
+		background-color: #0084BF; }
+
+.brown-bg {
+		background-color: #8C4E39; }
+
+.orange-bg {
+		background-color: #F6851F; }
+
+.tan-bg {
+		background-color: #F9E3C2; }
+
+.osx-bg {
+		background-color: #D1D7CD; }
+
+.steel-bg {
+		background-color: #474D5D; }
+
 #splash {
 		width: 500px;
 		position: absolute;
@@ -68,7 +137,7 @@ a:hover, a:active, a:visited, a {
 
 .navbar {
 		background-color: rgba(0, 0, 0, 0.5);
-		height: 50px; }
+		height: 60px; }
 		.navbar ul.navbar-nav a.nav-link {
 				color: #FFFFFF;
 				padding: 0 20px; }

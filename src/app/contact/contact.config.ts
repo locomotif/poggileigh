@@ -10,12 +10,12 @@ export const contactConfig = Object.freeze({
             classes: {"section-wrap": true},
             overlay: true,
             style: {
-                height: "500px",
+                height: "600px",
                 color: "#FFFFFF",
                 "text-align": "right"
             },
             img: {
-                src: "/assets/images/BPL_Profile-1_right.jpg",
+                src: "/assets/images/BPL_Profile-1_left.jpg",
                 style: {
                     "margin-left": "-200px",
                 }
