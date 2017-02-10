@@ -69,6 +69,12 @@ export class TimelineMessageComponent implements  OnInit, OnChanges, OnDestroy {
         }
     }
 
+    private d3EventListen(transition: any): void {
+        transition.on("start", this.transitionEvents.bind(this, "start"))
+        .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
+        .on("end", this.transitionEvents.bind(this, "end"));
+    }
+
     private render(): void {
         let padding = 10;
         let {width, height, top, right, left, bottom } = this.position;
@@ -77,7 +83,7 @@ export class TimelineMessageComponent implements  OnInit, OnChanges, OnDestroy {
         height = height - 2 * padding;
         width = width - 2 * padding;
 
-        d3.select(this.el.nativeElement).select("div")
+        this.d3EventListen(d3.select(this.el.nativeElement).select("div")
         .style("width", width + "px")
         .style("height", height + "px")
         .style("top", top + "px")
@@ -85,10 +91,11 @@ export class TimelineMessageComponent implements  OnInit, OnChanges, OnDestroy {
         .transition("timeline-message")
         .duration(100)
         .ease(d3.easeLinear)
-        .style("color", this.message.length > 0 ? "white" : "transparent")
-        .on("start", this.transitionEvents.bind(this, "start"))
-        .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
-        .on("end", this.transitionEvents.bind(this, "end")) ;
+        .style("color", this.message.length > 0 ? "white" : "transparent"));
+    }
+
+    moveMessage(): void {
+        this.render();
     }
 
     private transitionEvents(action: string) {

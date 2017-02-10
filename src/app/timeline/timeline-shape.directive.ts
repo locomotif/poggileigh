@@ -97,9 +97,9 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
                 if(x.target === this) this.signature = x; 
             },
             error: (err) => console.log(err),
-            complete: () => {console.log("complete notified");},
+                complete: () => {console.log("complete notified");},
         };
-        this.setGradient();
+            this.setGradient();
     }
 
 
@@ -109,7 +109,7 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
         this.path = d3.select(this.renderer.createElement(this.el.nativeElement,":svg:path"))
         .classed("timeline-shape", true);
         this.setState(state.HIDDEN);
-        this.render();
+        this.init();
     }
 
     ngOnChanges(prop) {
@@ -121,9 +121,11 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
             this.subscription = this.observable.subscribe(this.observer);
             this.initialized = true;
         } else {
-            // set transition
-            this.setState(state.VISIBLE);
-            this.render();
+            if(this.state === state.VISIBLE) {
+                this.moveShape();
+            } else {
+                this.render();
+            }
         }
     }
 
@@ -167,50 +169,61 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
 
     }
 
-    
     private setState(state: number): void {
         this.state = state;
     }
 
     /**
      * Render the shape
-     * @param state 1: open 0: closed
      */
     private render(): void {
-        let color: string;
+        this.setState(state.VISIBLE);
         this.setDims();
-        if(this.state === state.VISIBLE) {
-            color = "#383838";
-            // ensure we are starting from correct point
-            this.setShape(true);
-            this.path.attr("d", this.shape.toString())
-
-            // now set the shape to open
-            this.setShape();
-
-        } else {
-            this.setShape(true);
-            color = "transparent";
-        }
-
-        this.path
-        .transition("timeline-shape")
-        .duration(this.transitionConf.duration)
-        .ease(this.transitionConf.ease)
-        .attr("d", this.shape.toString())
-        .on("start", this.transitionEvents.bind(this, "start"))
-        .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
-        .on("end", this.transitionEvents.bind(this, "end"));
-
+        this.setShape();
+        this.d3EventListen(this.path
+                           .transition("timeline-shape")
+                           .duration(this.transitionConf.duration)
+                           .ease(this.transitionConf.ease)
+                           .attr("d", this.shape.toString())
+                          );
     }
-
-    isVisible(): Boolean {
-        return this.state === 0 ? false : true;
+    moveShape(): void {
+        this.setDims();
+        this.setShape();
+        this.d3EventListen(this.path
+                           .transition("timeline-shape")
+                           .duration(this.transitionConf.duration)
+                           .ease(this.transitionConf.ease)
+                           .attr("d", this.shape.toString())
+                          );
     }
 
     unRender(): void {
         this.setState(state.HIDDEN);
-        this.render();
+        this.setShape(true);
+        this.d3EventListen(this.path
+                           .transition("timeline-shape")
+                           .duration(this.transitionConf.duration)
+                           .ease(this.transitionConf.ease)
+                           .attr("d", this.shape.toString())
+                          );
+    }
+
+
+    private init(): void {
+        this.setDims();
+        this.setShape(true);
+        this.path.attr("d", this.shape.toString());
+    }
+
+    private d3EventListen(transition: any): void {
+        transition.on("start", this.transitionEvents.bind(this, "start"))
+        .on("interrupt", this.transitionEvents.bind(this, "interrupt"))
+        .on("end", this.transitionEvents.bind(this, "end"));
+    }
+
+    isVisible(): Boolean {
+        return this.state === 0 ? false : true;
     }
 
     destroy(): void {
@@ -241,6 +254,13 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
         this.dims = this.el.nativeElement.parentNode.getBoundingClientRect();
     }
 
+    /**
+     * Sets the 2D characteristics of the shape
+     *
+     * @param Boolean reset :will set the characteristics to a flat line which
+     * is dimensionless, so that when dimensions are implemented they have
+     * something to transition from
+     */
     private setShape(reset?: Boolean) {
         reset = reset || false;
         let startX: number, startY: number;
@@ -325,7 +345,7 @@ export class TimelineShapeDirective implements OnInit, OnChanges, OnDestroy {
             offset: offset,
             radius: radius,
         };
-        
+
         return this._boundingClientRect;
     }
 }

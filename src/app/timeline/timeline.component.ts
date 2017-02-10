@@ -72,7 +72,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
 
     /* d3 transition that can be shared amongs all d3 elements */
     transition: any;
-    duration: number = 300;
+    duration: number = 150;
 
     /* @var string[] :contains the current event types being filtered */
     private activeFilter: string[] = ['projects'];
@@ -128,7 +128,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     ngOnInit() {
         RX.Observable.fromEvent(window,'resize')
         .throttleTime(200)
-        .subscribe((x) => {this.updateValues()});
+        .subscribe((x) => {this.repaint()});
 
         /* set timeline axis parameters */
         this.queueXAxisAnimate(this.activeFilter);
@@ -156,14 +156,12 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         }
     }
 
-    private updateValues(): void {
+    private repaint(): void {
         if(this.timelineShapeDirective.isVisible()) {
-            //this.hideMessage();
-            //this.queueShapeAnimation(false);
             this.queueXAxisAnimate(this.activeFilter);
             this.queuePathAnimation();
             this.queueShapeAnimation(true);
-            //this.queueShowMessage();
+            this.queueMoveMessage();
         } else {
             this.queueXAxisAnimate(this.activeFilter);
             this.queuePathAnimation();
@@ -184,9 +182,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
             let which = e.which;
             if( which >= 37 && which <= 40 ) which === 37 || which === 40 ? this.activeTick-- : this.activeTick++;
             if(current != this.activeTick) {
-                // if active bubble, destruct
+                // if active shape, destruct
                 if(this.timelineShapeDirective.isVisible()) {
-                    this.hideMessage();
+                    this.queueHideMessage();
                     this.queueShapeAnimation(false);
                 }
                 this.queuePathAnimation();
@@ -277,24 +275,25 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     /**
      * queueShapeAnimation :schedules the animation of a shape
      */
-    private queueShapeAnimation(build: Boolean) {
-        build = build || false;
+    private queueShapeAnimation(visible: Boolean) {
+        visible = visible || false;
         let tickId = this.activeTickId;
-        if(build) {
+        if(visible) {
             setTimeout(() => this.scheduleProcess(
                 this.setTimelineShapeConf.bind(this, tickId),
                 this.timelineShapeDirective,
-                "Open bubble"
+                "open shape"
             ),0);
         } else {
-            // Unset the bubble
+            // Unset the shape
             setTimeout(() => {
                 this.scheduleProcess(
                     this.timelineShapeDirective.unRender.bind(this.timelineShapeDirective),
-                    this.timelineShapeDirective, "Close bubble"
+                    this.timelineShapeDirective, "close shape"
                 );},0);
         }
     }
+
     /**
      * set the animated shape
      * @param tick the scale postion from d3 axis tick
@@ -322,12 +321,31 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
             "Set Message"
         ),0);
     }
-    private hideMessage(): void{
+    private queueHideMessage(): void{
         setTimeout(() => this.scheduleProcess(
             () => {this.selectedMessage = ""},
                 this.timelineMessageComponent, 
             "Unset Message"
         ),0);
+    }
+    private queueMoveMessage(): void{
+        setTimeout(() => this.scheduleProcess(
+            this.moveMessage.bind(this),
+            this, 
+            "Move Message"
+        ),0);
+    }
+    private moveMessage(): void {
+        this.messagePosition = this.timelineShapeDirective.boundingClientRect;
+        setTimeout(() => this.scheduleProcess(
+            this.timelineMessageComponent.moveMessage.bind(this.timelineMessageComponent),
+                this.timelineMessageComponent, 
+            "Move Message"
+        ),0);
+        this.controlFlow({
+            action: "end",
+            signature: this.signature
+        });
     }
     private setMessage(tickId: string): void {
         // get location of shape
@@ -339,9 +357,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         let current = this.activeTick;
         this.activeTick = event.tick;
         if(current != this.activeTick) {
-            // if active bubble, destruct
+            // if active shape, destruct
             if(this.timelineShapeDirective.isVisible()) {
-                this.hideMessage();
+                this.queueHideMessage();
                 this.queueShapeAnimation(false);
             }
             this.queuePathAnimation();
@@ -354,9 +372,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         this.flushQueue();
         this.activeFilter = e;
         // how about we clear the queue
-        // if active bubble, destruct
+        // if active shape, destruct
         if(this.timelineShapeDirective.isVisible()) {
-            this.hideMessage();
+            this.queueHideMessage();
             this.queueShapeAnimation(false);
         }
         this.queueXAxisAnimate(e);
