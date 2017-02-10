@@ -1,59 +1,83 @@
 @import "../../../assets/scss/global";
 $myRadius: 3px;
-
 .timeline-filter {
   position: absolute;
   margin-top: 10px;
   right: 10px;
   top: $navbar-height;
-  background-color: $steel;
-  border-radius: $myRadius;
-  text-align: center;
-  height: 25px;
-  min-width: 35px;
-  line-height: 25px;
+  font-size: set-font-size(0.75);
 
-  .open,
-  .select {
-    font-size: set-font-size(0.75);
+  .timeline-filter-wrapper {
+    background-color: $steel;
+    position: relative;
+    border-radius: $myRadius;
+    line-height: 25px;
+    cursor: pointer;
+
+    .timeline-filter-list ,
+    .timeline-filter-chevron {
+      width: 20px;
+      height: 25px;
+      text-align: center;
+  }
+  .timeline-filter-chevron {
+    float: left;
     border-top-left-radius: $myRadius;
     border-bottom-left-radius: $myRadius;
     background-color: $blue;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 20px;
+  }
+
+  .timeline-filter-list {
+    float: right;
+    border-top-right-radius: $myRadius;
+    border-bottom-right-radius: $myRadius;
+    background-color: $steel;
+    color: $blue;
+  }
+  .timeline-filter-form {
+    background-color: inherit;
     height: 25px;
-    line-height: 25px;
-    opacity: 1;
-  }
+    overflow: hidden;
+    float: left;
 
-  .icon {
-    padding-left: 25px;
-    position: relative;
-    width: 55px;
-    cursor: pointer;
-
-    .fa.fa-bars {
-      color: $blue;
-      width: 20px;
+    form {
+      padding: 0 10px;
     }
-  }
-
-  .filter {
-    padding: 0 10px 0 40px;
-    font-size: set-font-size(0.75);
-    position: relative;
 
     .checkbox input,
     .checkbox label {
       margin-right: 5px;
       color: lighten($tan, 7%);
     }
-
-    .fa.fa-chevron-right {
-      padding-left: 5px;
-      width: 20px;
-    }
   }
+
+}
+}
+
+.timeline-filter-legend {
+  position: absolute;
+  margin-top: 10px;
+  right: 10px;
+  top: $navbar-height;
+  font-size: set-font-size(0.75);
+  color: $steel;
+  padding-right: 45px;
+  height: 25px;
+  line-height: 25px;
+
+  span {
+    padding-left: 25px;
+  }
+  .myBlue {
+    color: $blue;
+    }
+    .myOrange {
+      color: $orange;
+    }
+    .myGreen {
+      color: $green;
+    }
+    .myWhite {
+      color: $white;
+    }
 }

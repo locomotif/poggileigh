@@ -1,4 +1,5 @@
 export { SharedModule } from './shared.module';
+export { DivExpandDirective } from './div-expand.directive';
 export { ParallexDirective } from './parallex.directive';
 export { parallexConfig } from './parallex.config';
 export { OverlayDirective } from './overlay.directive';

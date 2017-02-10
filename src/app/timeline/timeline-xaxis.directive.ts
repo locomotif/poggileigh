@@ -12,6 +12,7 @@ import {
 
 import * as d3 from "d3/index";
 import { controlFlow } from './index';
+import { eventTypeColor } from '../shared/index';
 
 @Directive({
     selector: '[appTimelineXaxis]',
@@ -50,12 +51,7 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
     // this is hack so I know when transitions are completed to finish
     private transitionCount: number = 0;
     // d3js will change common colors to rgb. So if I want an attribute with value orange d3js will change to rgb(x,x,x)
-    private labelColor: any = {
-        introduction: 'myWhite',
-        projects: "myOrange",
-        experience: 'myBlue',
-        education: 'myGreen',
-    }
+    private labelColor = eventTypeColor;
 
 
     constructor(

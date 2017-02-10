@@ -1,25 +1,39 @@
-<div class="timeline-filter" >
-  <div 
-     *ngIf="!show" 
-     (click)="toggleFilter($event, true)" 
-     class="icon" >
-     <div class="open"><i class="fa fa-chevron-left" >&nbsp;</i></div>
-     <i class="fa fa-bars" >&nbsp;</i>
-  </div>
-  <div *ngIf="show" (click)="toggleFilter($event, false)" class="filter" >
-    <div class="select"><i class="fa fa-chevron-right" >&nbsp;</i></div>
-   
-    <form novalidate class="form-inline" [formGroup]="filterGroup" >
-      <div *ngFor="let box of options" class="checkbox" (click)="toggleCheckbox($event, box)">
-        <label [for]="box" >
-          <input 
-          type="checkbox" 
-          [checked]="checkboxState[box]"
-          [value]="checkboxState[box]"
-          formControlName="{{box}}" />{{labels[box]}}
-        </label>
-      </div>
-    </form>
-  </div>
+<!-- filter strip start -->
+<!--
+timeline-filter will consists of 4 parts
+- timeline-filter-wrapper will wrap 3 elements
+- element 1: will contain a chevron that will indicate the next state
+- element 2: will be a list icon
+- element 3: will be the filter form
+- element 4: legend of the currently selected filter items
+-->
+<div class="timeline-filter-legend" >
+  <span *ngFor="let option of options" [ngClass]="checkboxLabelColor[option]" >{{ labels[option] }}</span>
 </div>
+<div class="timeline-filter" >
 
+  <div class="timeline-filter-wrapper" >
+    <div class="timeline-filter-chevron"  (click)="toggleFilter($event)" >
+      <i class="fa fa-chevron-left" [ngClass]="{'fa-chevron-right': show}" >&nbsp;</i>
+    </div>
+
+    <div class="timeline-filter-form" appDivExpand [myDivExpandState]="show" >
+      <form novalidate class="form-inline" [formGroup]="filterGroup" >
+        <div *ngFor="let option of options" class="checkbox" (click)="toggleCheckbox($event, option)">
+          <label [for]="option" >
+            <input 
+            type="checkbox" 
+            [checked]="checkboxState[option]"
+            [value]="checkboxState[option]"
+            formControlName="{{option}}" />{{labels[option]}}
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <div class="timeline-filter-list" (click)="toggleFilter($event)"  >
+      <i class="fa fa-bars" >&nbsp;</i>
+    </div>
+  </div>
+
+</div>

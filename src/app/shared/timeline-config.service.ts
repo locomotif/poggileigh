@@ -82,3 +82,11 @@ export class TimelineConfigService {
         return this.data.length;
     }
 }
+
+export const eventTypeColor = {
+    introduction: 'myWhite',
+    projects: "myOrange",
+    experience: 'myBlue',
+    education: 'myGreen',
+}
+

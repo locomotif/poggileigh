@@ -239,8 +239,8 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         ), 0);
     }
     private setDefaultTick(): void {
-        //this.activeTick = this.timelineXAxisDirective.tickCount - 1;
-        this.activeTick = 0;
+        this.activeTick = this.timelineXAxisDirective.tickCount - 1;
+        //this.activeTick = 0;
         this.controlFlow({
             action: "end",
             signature: this.signature
