@@ -74,6 +74,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     transition: any;
     duration: number = 300;
 
+    /* @var string[] :contains the current event types being filtered */
+    private activeFilter: string[] = ['projects'];
+
     /* @var activeTick :current location on axis */
     _activeTick: number = 0;
     get activeTick(): number { return this._activeTick; }
@@ -128,7 +131,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         .subscribe((x) => {this.updateValues()});
 
         /* set timeline axis parameters */
-        this.queueXAxisAnimate(['projects']);
+        this.queueXAxisAnimate(this.activeFilter);
         this.queueDefaultPosition();
     }
 
@@ -155,14 +158,14 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
 
     private updateValues(): void {
         if(this.timelineShapeDirective.isVisible()) {
-            this.hideMessage();
-            this.queueShapeAnimation(false);
-            this.queueXAxisAnimate();
+            //this.hideMessage();
+            //this.queueShapeAnimation(false);
+            this.queueXAxisAnimate(this.activeFilter);
             this.queuePathAnimation();
             this.queueShapeAnimation(true);
-            this.queueShowMessage();
+            //this.queueShowMessage();
         } else {
-            this.queueXAxisAnimate();
+            this.queueXAxisAnimate(this.activeFilter);
             this.queuePathAnimation();
         }
     }
@@ -349,6 +352,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
 
     private applyFilter(e):void {
         this.flushQueue();
+        this.activeFilter = e;
         // how about we clear the queue
         // if active bubble, destruct
         if(this.timelineShapeDirective.isVisible()) {

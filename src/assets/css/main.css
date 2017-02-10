@@ -68,7 +68,7 @@ a:hover, a:active, a:visited, a {
 
 .navbar {
 		background-color: rgba(0, 0, 0, 0.5);
-		height: 70px; }
+		height: 50px; }
 		.navbar ul.navbar-nav a.nav-link {
 				color: #FFFFFF;
 				padding: 0 20px; }
