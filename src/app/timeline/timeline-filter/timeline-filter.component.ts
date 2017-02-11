@@ -61,8 +61,9 @@ export class TimelineFilterComponent implements OnInit, OnChanges {
         this.options = this.config.getEventTypes();
         this.options.forEach((e, i) => {
             group[e] = new FormControl(false);
-            // check to see if the state has already been added by the default
-            // state captured from parent component
+
+            /* check to see if the state has already been added by the default
+             * state captured from parent component */
             if(!this.checkboxState[e]) {
                 this.updateCheckboxState(e, false);
             }
@@ -80,7 +81,6 @@ export class TimelineFilterComponent implements OnInit, OnChanges {
                 this.updateCheckboxState(this.defaultFilter[i], true);
             }
         }
-        console.log(this.checkboxState);
     }
 
     private toggleFilter(event): void {
@@ -120,10 +120,24 @@ export class TimelineFilterComponent implements OnInit, OnChanges {
             c.setValue(false);
         }
     }
-
     private updateCheckboxState(eventType: string, state: Boolean): void {
         this.checkboxState[eventType] = state;
-        this.checkboxLabelColor[eventType] = {};
-        this.checkboxLabelColor[eventType][eventTypeColor[eventType]] = state;
+        this.updateColorState();
+    }
+
+    private updateColorState(): void {
+        let atleastone: Boolean = false;
+        for(let i in this.checkboxState) {
+            if(this.checkboxState[i])
+                atleastone = true;
+            this.checkboxLabelColor[i] = {};
+            this.checkboxLabelColor[i][eventTypeColor[i]] = this.checkboxState[i];
+        }
+
+        // if all false then set all colors to true
+        if(!atleastone){
+            let makeTruthy = (o) => { let newO = {}; for(let i in o) if(typeof o[i] === "boolean") newO[i] = true; return newO; }
+            for(let i in this.checkboxLabelColor) this.checkboxLabelColor[i] = makeTruthy(this.checkboxLabelColor[i]);
+        }
     }
 }
