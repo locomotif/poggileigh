@@ -30,7 +30,7 @@ import * as RX from 'rxjs/Rx';
 })
 export class TimelineFilterComponent implements OnInit, OnChanges {
 
-    private show: Boolean = true;
+    private show: Boolean = false;
     private activeFilter: string[] = [];
     private checkboxState: any = {};
     private checkboxLabelColor: any = {};
