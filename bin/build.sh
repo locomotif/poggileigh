@@ -14,7 +14,10 @@ then
     exit 1;
 fi
 
+git stash
+git reset --hard
 ng build --prod
+git stash pop
 set `ls dist`
 
 # remove old files

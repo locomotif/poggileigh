@@ -41,13 +41,14 @@ export const dashboardConfig = Object.freeze({
             overlay: false,
             style: {
                 height: "700px",
-                color: "#333333",
+                color: "#F6851F",
                 "text-align": "right"
             },
             img: {
-                src: "/assets/images/BPL_Profile-1_right.jpg",
+                classes: "profile",
+                src: "/assets/images/BPL_Profile-1_left.jpg",
                 style: {
-                    "margin-left": "-600px",
+                    "margin-left": "-250px",
                 }
             },
             title: 'Software Engineer',
