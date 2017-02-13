@@ -20,7 +20,7 @@ export const resumeConfig: TimelineEvent[] = [
         eventType: "introduction",
         start: new Date(),
         end: new Date(),
-        message: '<p>Thank you for taking the opportunity to learn about Bernardo P. Leigh. This timeline was developed while discovering new client side technologies.</p> <br/>To navigate one can use the following arrow keys:<br/> &#8592; &#8594;',
+        message: '<p>Thank you for taking the time to learn about my work related experiences. This timeline was developed while discovering new client side technologies.</p> <br/>To navigate one can use the following arrow keys:<br/> &#8592; &#8594; or swipe on mobile devices.',
         rect: {
             height: 200,
             width: 400

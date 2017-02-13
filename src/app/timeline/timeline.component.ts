@@ -22,6 +22,8 @@ import { D2Util } from '../shared/index';
 import { xAxisConf, pathConf, shapeConf} from './index';
 import { TimelineConfigService } from '../shared/index';
 
+declare var Hammer: any;
+
 @Component({
     selector: 'app-timeline',
     templateUrl: './timeline.component.html',
@@ -130,6 +132,9 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
         .throttleTime(200)
         .subscribe((x) => {this.repaint()});
 
+        let swipeHandle = new Hammer(this.el.nativeElement);
+        swipeHandle.on('swipeleft swiperight',(e) => {this.swipe(e.type)});
+
         /* set timeline axis parameters */
         this.queueXAxisAnimate(this.activeFilter);
         this.queueDefaultPosition();
@@ -181,6 +186,24 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
             let current = this.activeTick;
             let which = e.which;
             if( which >= 37 && which <= 40 ) which === 37 || which === 40 ? this.activeTick-- : this.activeTick++;
+            if(current != this.activeTick) {
+                // if active shape, destruct
+                if(this.timelineShapeDirective.isVisible()) {
+                    this.queueHideMessage();
+                    this.queueShapeAnimation(false);
+                }
+                this.queuePathAnimation();
+                this.queueShapeAnimation(true);
+                this.queueShowMessage();
+            }
+        }
+    }
+
+    private swipe(swipeType: string):void {
+        if(!this.isRendering()) {
+            let current = this.activeTick;
+            console.log(swipeType);
+            swipeType === 'swipeleft' ? this.activeTick-- : this.activeTick++;
             if(current != this.activeTick) {
                 // if active shape, destruct
                 if(this.timelineShapeDirective.isVisible()) {
