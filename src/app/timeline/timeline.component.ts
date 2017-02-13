@@ -60,7 +60,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     timelineMessageComponent: any;
 
     /* svg g transpose */
-    translate: number[] = [10,550];
+    translate: number[] = [10,575];
 
     /* Timeline axis directive paramters */
     axisConf: xAxisConf;

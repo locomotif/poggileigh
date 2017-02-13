@@ -47,4 +47,12 @@ div.timeline-message {
     }
   }
 
+  .list-group {
+    .list-group-item {
+      @include font-size(0.65);
+      padding: 3px 10px;
+      color: darken($steel, 10%);
+    }
+  }
+
 }
