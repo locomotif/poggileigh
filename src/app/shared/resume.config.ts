@@ -20,9 +20,9 @@ export const resumeConfig: TimelineEvent[] = [
         eventType: "introduction",
         start: new Date(),
         end: new Date(),
-        message: '<p>Thank you for taking the time to learn about my work related experiences. This timeline was developed while discovering new client side technologies.</p> <br/>To navigate one can use the following arrow keys:<br/> &#8592; &#8594; or swipe on mobile devices.',
+        message: '<p>Thank you for taking the time to learn about my experiences. This timeline was developed while discovering new client side technologies.</p> <br/>To navigate one can use the following:<p><ul class="list-group" ><li class="list-group-item" ><span class="blue bold" > &#8592; &#8594;&nbsp;&nbsp;</span>left and right arrow keys</li><li class="list-group-item" ><span><i class="fa fa-hand-o-up bold blue" >&nbsp;&nbsp;</i>swipe on mobile devices</span></li><li class="list-group-item" ><span><i class="fa fa-bullseye bold blue" >&nbsp;&nbsp;</i>click on timeline date</span></li></ul>',
         rect: {
-            height: 200,
+            height: 250,
             width: 400
         }
     },
@@ -176,7 +176,7 @@ export const resumeConfig: TimelineEvent[] = [
         end: new Date(),
         message: '<h3>resume.poggileigh.com</h3><p>I set out on this project to learn new technologies, before I began looking for a new employer.</p><p>Main Technologies:<ul class="list-group"><li class="list-group-item" ><a target="_blank" href="https://angular.io/" >Angular 2</a></li><li class="list-group-item" ><a target="_blank" href="https://d3js.org/" >D3</a></li><li class="list-group-item" ><a target="_blank" href="http://sass-lang.com/" >SASS</a></li><li class="list-group-item" ><a target="_blank" href="http://reactivex.io/rxjs/" >RxJS</a></li><li class="list-group-item" ><a target="_blank" href="https://cli.angular.io/" >Angular-cli</a></li></li><li class="list-group-item" ><a target="_blank" href="https://cli.angular.io/" >typescript</a></li></li></ul></p><p>Some of the Supporting Technologies:<ul class="list-group"><li class="list-group-item" >nginx</li><li class="list-group-item" >ansible</li><li class="list-group-item" >npm scripts with bash scripts</li><li class="list-group-item" >AWS Cloud Formation</li><li class="list-group-item" >vim</li><li class="list-group-item" >git</li></ul></p>',
         rect: {
-            height: 450,
+            height: 475,
             width: 400
         }
     },
