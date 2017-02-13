@@ -27,6 +27,7 @@ import {
 } from './shared/index';
 
 import { SoftwareEngineerComponent } from './software-engineer/software-engineer.component';
+import { AppNavComponent } from './app-nav/app-nav.component';
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -41,6 +42,7 @@ import { SoftwareEngineerComponent } from './software-engineer/software-engineer
         FormControlFocusDirective,
         FormErrorDirective,
         SoftwareEngineerComponent,
+        AppNavComponent,
     ],
     imports: [
         AppRoutingModule,
