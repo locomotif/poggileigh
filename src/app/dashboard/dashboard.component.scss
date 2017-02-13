@@ -1,3 +1,5 @@
+@import "../../assets/scss/global";
+
 .section {
   .img {
     left: 0;
@@ -46,3 +48,12 @@
     }   
   } 
 }   
+
+@media (max-width: 500px) {
+  .section {
+    h1 {
+      font-weight: 200;
+      font-size: set-font-size(2.4);
+    }
+  }
+}

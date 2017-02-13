@@ -75,7 +75,7 @@ export class TimelineComponent implements OnInit, AfterContentInit, OnDestroy {
     duration: number = 150;
 
     /* @var string[] :contains the current event types being filtered */
-    private activeFilter: string[] = ['projects'];
+    private activeFilter: string[] = [];
 
     /* @var activeTick :current location on axis */
     _activeTick: number = 0;

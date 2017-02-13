@@ -137,7 +137,11 @@ a:hover, a:active, a:visited, a {
 
 .navbar {
 		background-color: rgba(0, 0, 0, 0.5);
-		height: 60px; }
+		height: 60px;
+		padding-top: 10px;
+		padding-bottom: 10px; }
+		.navbar .navbar-brand {
+				padding: 0px; }
 		.navbar ul.navbar-nav a.nav-link {
 				color: #FFFFFF;
 				padding: 0 20px; }
@@ -149,6 +153,14 @@ a:hover, a:active, a:visited, a {
 						color: #ACACAC;
 						width: 20px;
 						margin: 0 auto; }
+		.navbar .collapse.show {
+				position: absolute;
+				left: 0px;
+				top: 60px;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				background-color: rgba(0, 0, 0, 0.5); }
 
 label[required]:after {
 		content: "*";
