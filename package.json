@@ -12,7 +12,9 @@
             "e2e": "protractor",
             "scss": "node-sass --output-style nested --indent-type tab --indent-width 2 -o src/assets/css src/assets/scss",
             "scssmin": "node-sass --output-style compressed --indent-type tab --indent-width 2 -o src/assets/css src/assets/scss",
-            "imagemin": "./node_modules/imagemin-cli/cli.js ./src/assets/orig_images/* -o ./src/assets/images/"
+            "imagemin": "./node_modules/imagemin-cli/cli.js ./src/assets/orig_images/* -o ./src/assets/images/",
+
+            "build-prod": "./bin/build.sh"
         },
         "private": true,
         "dependencies": {
