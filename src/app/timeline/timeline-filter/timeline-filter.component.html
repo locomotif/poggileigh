@@ -7,7 +7,7 @@ timeline-filter will consists of 4 parts
 - element 3: will be the filter form
 - element 4: legend of the currently selected filter items
 -->
-<div class="timeline-filter-legend" >
+<div class="timeline-filter-legend"  (click)="toggleFilter($event)" >
   <span *ngFor="let option of options" [ngClass]="checkboxLabelColor[option]" >{{ labels[option] }}</span>
 </div>
 <div class="timeline-filter" >

@@ -12,7 +12,7 @@ import * as d3 from "d3/index";
 })
 export class DivExpandDirective implements OnChanges {
 
-    private width: number = 320;
+    private width: number = 270;
     @Input("myDivExpandState") show: Boolean;
 
     private d3div: any;
