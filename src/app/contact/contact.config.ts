@@ -15,7 +15,7 @@ export const contactConfig = Object.freeze({
                 "text-align": "right"
             },
             img: {
-                src: "/assets/images/BPL_Profile-1_left.jpg",
+                src: "/assets/images/BPL_Profile-1_left_72.jpg",
                 style: {
                     "margin-left": "-200px",
                 }

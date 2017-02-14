@@ -12,7 +12,7 @@ export const dashboardConfig = Object.freeze({
                 "text-align": "right"
             },
             img: {
-                src: "/assets/images/defines_me.jpg"
+                src: "/assets/images/defines_me_72.jpg"
             },
             title: 'Bernardo Poggi Leigh',
             subTitle: 'developer - artist - tinker - papá',
@@ -46,7 +46,7 @@ export const dashboardConfig = Object.freeze({
             },
             img: {
                 classes: "profile",
-                src: "/assets/images/BPL_Profile-1_left.jpg",
+                src: "/assets/images/BPL_Profile-1_left_72.jpg",
                 style: {
                     "margin-left": "-250px",
                 }
@@ -83,7 +83,7 @@ export const dashboardConfig = Object.freeze({
                 "text-align": "right"
             },
             img: {
-                src: "/assets/images/fb.jpg",
+                src: "/assets/images/fb_72.jpg",
                 style: {
                     "margin-top": "-300px",
                 },
