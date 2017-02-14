@@ -65,13 +65,26 @@ Submit function
                   <td class="icon" >
                     <i class="fa fa-exclamation-triangle">&nbsp;</i>
                   </td>
-                  <td class="message" >
-                    <ul>
-                      <li
+                  <td class="message" 
                       *ngIf="fromUser.get('email').hasError('validateEmail') && fromUser.get('email').touched">
                       Please provide a valid email
-                      </li>
-                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- End: Errors -->
+
+            <!-- Start: Success -->
+            <table 
+              *ngIf="sentSuccess"
+              class="alert alert-success col-sm-12" >
+              <tbody>
+                <tr>
+                  <td class="icon" >
+                    <i class="fa fa-thumbs-o-up">&nbsp;</i>
+                  </td>
+                  <td class="message" >
+                      Message was delivered succesfully. Thanks!
                   </td>
                 </tr>
               </tbody>

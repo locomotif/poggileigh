@@ -30,6 +30,8 @@ export class ContactComponent implements OnInit {
     private activeFormControl: any = {};
     private payload: any;
 
+    private sentSuccess: Boolean = false;
+
     constructor(
         private contactService: ContactService
     ) {
@@ -46,14 +48,7 @@ export class ContactComponent implements OnInit {
 
     ngOnInit () {
         window.scrollTo(0,0);
-        this.fromUser = new FormGroup({
-            name: new FormControl('', Validators.required ),
-            message: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, validateEmail])
-        });
-        this.activeFormControl.name = false;
-        this.activeFormControl.message = false;
-        this.activeFormControl.email = false;
+        this.buildForm();
     }
 
     onSubmit() {
@@ -62,6 +57,17 @@ export class ContactComponent implements OnInit {
             this.sendMessage();
         }
         return false;
+    }
+    
+    private buildForm(): void {
+        this.fromUser = new FormGroup({
+            name: new FormControl('', Validators.required ),
+            message: new FormControl('', [Validators.required]),
+            email: new FormControl('', [Validators.required, validateEmail])
+        });
+        this.activeFormControl.name = false;
+        this.activeFormControl.message = false;
+        this.activeFormControl.email = false;
     }
 
     private onInputBlur(event) {
@@ -82,7 +88,11 @@ export class ContactComponent implements OnInit {
         let test = this.contactService.sendMessage(this.payload);
         test.subscribe(
             err => {
-                console.log(err);
+                //console.log(err);
+                // @todo fix sendmail. Just reponde with true, and check the mail spool for messages
+
+                this.sentSuccess = true;
+                this.buildForm();
             });
     }
 
