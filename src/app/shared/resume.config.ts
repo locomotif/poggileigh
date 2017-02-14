@@ -62,7 +62,7 @@ export const resumeConfig: TimelineEvent[] = [
         eventType: "experience",
         start: new Date(2010,11,1),
         end: new Date(2016,9,27),
-        message: '<h3>Parkside Lending LLC</h3><h4>Software Architect<span class="date" >Dec 2010 - Oct 2016</span></h4><p><a target="_blank" href="https://www.parksidelending.com/" >Parkside Lending LLC</a> is a national leader in wholesale and correspondent lending.</p><p>I collaborated as a full-stack engineer; faciliating the companie\'s growth from 60 to 300 plus employees, and the ability to service beyond California and Oregon into 48 states.</p><p>Working during the Dodd-Frank era, I had the opportunity to deliver solutions under pressure due to the constant changes in regulations. These solutions had to be delivered without exception to comply with <a target="_blank" href="http://www.consumerfinance.gov/" >CFPB</a>.</p>',
+        message: '<h3>Parkside Lending LLC</h3><h4>Software Architect<span class="date" >Dec 2010 - Oct 2016</span></h4><p><a target="_blank" href="https://www.parksidelending.com/" >Parkside Lending LLC</a> is a national leader in wholesale and correspondent lending.</p><p>I collaborated as a full-stack engineer; faciliating the company\'s growth from 60 to 300 plus employees, and the ability to service beyond California and Oregon into 48 states.</p><p>Working during the Dodd-Frank era, I had the opportunity to deliver solutions under pressure due to the constant changes in regulations. These solutions had to be delivered without exception to comply with <a target="_blank" href="http://www.consumerfinance.gov/" >CFPB</a>.</p>',
         rect: {
             height: 400,
             width: 400
@@ -135,7 +135,7 @@ export const resumeConfig: TimelineEvent[] = [
         end: new Date(),
         //https://web.archive.org/web/20131124015427/https://estilomio.com/
         //https://web-beta.archive.org/web/20131124015427/https://estilomio.com/
-        message: '<h3>estilomio.com</h3><p>This project was a collaboration with a cousin in Perú.  We developed an e-commerce application similar to myHabit.com, before it was absorbed into amazon.com. The whole application was built from the grown up, without the use of any framework, except the one I had developed. I handled the technology, credit card integrations, shipping integration and email campaign, while my cousin handle the business and vendors located in Perú.</p><p>This project took a year to develope, while burning the candle from both ends.  We launced the site in Nov. 2012, and later sold the business to <a href="http://elcomercio.pe/" >elcomercio.pe</a>. I continued to support the application until it was rebuilt. Sometime in mid 2016, <a href="https://ofertop.pe/"> a site also owned by El Commercio</a>, absorbed estilomio.com.<p/>',
+        message: '<h3>estilomio.com</h3><p>This project was a collaboration with a cousin in Perú.  We developed an e-commerce application similar to myHabit.com, before it was absorbed into amazon.com. The whole application was built from the ground up, without the use of any framework, except the one I had developed. I handled the technology, credit card integrations, shipping integration and email campaign, while my cousin handled the business and vendors located in Perú.</p><p>This project took a year to develop, while burning the candle from both ends.  We launced the site in Nov. 2012, and later sold the business to <a href="http://elcomercio.pe/" >elcomercio.pe</a>. I continued to support the application until it was rebuilt. Sometime in mid 2016, <a href="https://ofertop.pe/"> a site also owned by El Commercio</a>, absorbed estilomio.com.<p/>',
         rect: {
             height: 420,
             width: 400
@@ -148,7 +148,7 @@ export const resumeConfig: TimelineEvent[] = [
         eventType: "projects",
         start: new Date(2010,5,29),
         end: new Date(),
-        message: '<h3>pwatterslac.com</h3><p>Acupuncture website for my partner, Patricia Watters.  Direction was provided by client. Photography and development accomplished by me. This was a collaborative effort; however, I had to aid and not intervine in the client\'s vision.</p>',
+        message: '<h3>pwatterslac.com</h3><p>Acupuncture website for my partner, Patricia Watters.  Direction was provided by client. Photography and development accomplished by me. This was a collaborative effort; however, I had to aid and not intervene in the client\'s vision.</p>',
         rect: {
             height: 200,
             width: 400
