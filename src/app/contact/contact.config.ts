@@ -1,6 +1,6 @@
 export const contactConfig = Object.freeze({
     emailService: {
-        requestUrl: "http://resume.poggileigh.com:81/index.php"
+        requestUrl: "http://resume.poggileigh.com/index.php"
     },
     sections: [
         /*
