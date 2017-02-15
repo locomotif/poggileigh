@@ -61,7 +61,7 @@ export class ParallexDirective implements OnInit {
                 this.moveImage();
 
                 this.observable = RX.Observable.fromEvent(window,'scroll')
-                .debounceTime(1)
+                .debounceTime(0)
                 .subscribe((x) => { if(this.image) this.moveImage() });
             });
     }
