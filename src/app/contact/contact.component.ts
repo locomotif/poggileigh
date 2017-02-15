@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, QueryList, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -10,6 +10,8 @@ import {
     validateEmail
 } from '../shared/index';
 
+import * as RX from 'rxjs/Rx';
+
 @Component({
     selector: 'app-contact',
     templateUrl: './contact.component.html',
@@ -20,16 +22,18 @@ import {
     host: {'(input-blur)':'onInputBlur($event)', '(input-focus)':'onInputFocus($event)'},
     providers: [  ContactService ],
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, OnDestroy {
 
     public fromUser: FormGroup;
 
+    @ViewChildren('parallex')
+    parallex: any;
 
-    private imgLoaded: Boolean[] =[];
-    private sections = contactConfig.sections;
     private activeFormControl: any = {};
+    private imgLoaded: Boolean[] =[];
+    private observable: any;
     private payload: any;
-
+    private sections = contactConfig.sections;
     private sentSuccess: Boolean = false;
 
     constructor(
@@ -46,9 +50,18 @@ export class ContactComponent implements OnInit {
         }
     } 
 
-    ngOnInit () {
+    ngOnInit(): void {
         window.scrollTo(0,0);
         this.buildForm();
+
+        this.observable = RX.Observable.fromEvent(window,'resize')
+        .debounceTime(200)
+        .subscribe((x) => { this.updateImageDims() });
+    }
+
+    ngOnDestroy(): void {
+        window.scrollTo(0,0);
+        this.observable.unsubscribe();
     }
 
     onSubmit() {
@@ -103,6 +116,11 @@ export class ContactComponent implements OnInit {
         }
         return false;
     }
+
+    private updateImageDims() {
+        this.parallex.forEach((e, i) => {e.updateImageDims()});
+    }
+
 
     setStyle(styles: any): any {
         return styles;
