@@ -1,9 +1,9 @@
 @import "../../../assets/scss/global";
 $myRadius: 3px;
 .timeline-filter {
-  position: absolute;
-  margin-top: 10px;
-  right: 10px;
+  position: fixed;
+  margin-top: 0px;
+  right: -20px;
   top: $navbar-height;
   font-size: set-font-size(0.55);
 
@@ -55,9 +55,9 @@ $myRadius: 3px;
 }
 
 .timeline-filter-legend {
-  position: absolute;
-  margin-top: 10px;
-  right: 10px;
+  position: fixed;
+  margin-top: 0px;
+  right: -20px;
   top: $navbar-height;
   font-size: set-font-size(0.55);
   color: $steel;
