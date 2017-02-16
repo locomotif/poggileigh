@@ -24,6 +24,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_O
     $from = $post->email;
     $message = $post->message;
     $name = $post->name;
+    $subject = "Possible work from resume";
 
 
     $headers = "From: webmaster@poggileigh.com\r\n" .
@@ -33,8 +34,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_O
 
     if(!$development) {
         $sent = mail(
-            $from,
             $to,
+            $subject,
             $message,
             $headers
         );
