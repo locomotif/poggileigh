@@ -20,9 +20,9 @@ export const resumeConfig: TimelineEvent[] = [
         eventType: "introduction",
         start: new Date(),
         end: new Date(),
-        message: '<p>Thank you for taking the time to learn about my experiences. This timeline was developed as a goal to learn new client side technologies and implement them in the development of this site.</p>To navigate one can use the following:<p><ul class="list-group" ><li class="list-group-item" ><span class="blue bold" > &#8592; &#8594;&nbsp;&nbsp;</span>left and right arrow keys</li><li class="list-group-item" ><span><i class="fa fa-hand-o-up bold blue" >&nbsp;&nbsp;</i>swipe on touch screen devices</span></li><li class="list-group-item" ><span><i class="fa fa-bullseye bold blue" >&nbsp;&nbsp;</i>click on timeline date</span></li></ul>',
+        message: '<p>Thank you for taking the time to learn about my experiences. This timeline was developed as a goal to learn new client side technologies and implement them in the development of this site.</p>To navigate one can use the following:<p><ul class="list-group" ><li class="list-group-item" ><span class="blue bold" > &#8592; &#8594;&nbsp;&nbsp;</span>left and right arrow keys</li><li class="list-group-item" ><span><i class="fa fa-hand-o-up bold blue" >&nbsp;&nbsp;</i>swipe on touch screen devices</span></li><li class="list-group-item" ><span><i class="fa fa-bullseye bold blue" >&nbsp;&nbsp;</i>click on timeline date</span></li><li class="list-group-item" ><span><a title="Bernardo Poggi Liegh Resume" alt="Bernardo Poggi Liegh Resume" href="http://resume.poggileigh.com:81/resume.php"><i class="fa fa-file-pdf-o" >&nbsp;</i></a>Click on this PDF icon or top left corner icon to download my resume</span></li></ul>',
         rect: {
-            height: 250,
+            height: 260,
             width: 400
         }
     },
@@ -135,7 +135,7 @@ export const resumeConfig: TimelineEvent[] = [
         end: new Date(),
         //https://web.archive.org/web/20131124015427/https://estilomio.com/
         //https://web-beta.archive.org/web/20131124015427/https://estilomio.com/
-        message: '<h3>estilomio.com</h3><p>This project was a collaboration with a cousin in Perú.  We developed an e-commerce application similar to myHabit.com, before it was absorbed into amazon.com. The whole application was built from the ground up, without the use of any framework, except the one I had developed. I handled the technology, credit card integrations, shipping integration and email campaign, while my cousin handled the business and vendors located in Perú.</p><p>This project took a year to develop, while burning the candle from both ends.  We launced the site in Nov. 2012, and later sold the business to <a href="http://elcomercio.pe/" >elcomercio.pe</a>. I continued to support the application until it was rebuilt. Sometime in mid 2016, <a href="https://ofertop.pe/"> a site also owned by El Commercio</a>, absorbed estilomio.com.<p/>',
+        message: '<h3>estilomio.com</h3><p>This project was a collaboration with a cousin in Perú.  We developed an e-commerce application to service Perú, including custom delivery solution. The application was built from the ground up, without the use of any 3rd party framework. I handled the technology, credit card integrations, shipping integration, email campaign, server configuration and artistic direction while my cousin handled the business, vendor accounts, and managing a small team that handled data entry, packaging and photography of products.</p><p>This project took a year to develop, while burning the candle from both ends.  We launced the site in Nov. 2012, and later sold the business to <a href="http://elcomercio.pe/" >elcomercio.pe</a>. I continued to support the application until it was rebuilt. Sometime in mid 2016, <a href="https://ofertop.pe/"> a site also owned by El Commercio</a>, absorbed estilomio.com.<p/>',
         rect: {
             height: 420,
             width: 400

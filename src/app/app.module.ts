@@ -28,6 +28,7 @@ import {
 
 import { SoftwareEngineerComponent } from './software-engineer/software-engineer.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
+import { AppFooterComponent } from './app-footer/app-footer.component';
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -43,6 +44,7 @@ import { AppNavComponent } from './app-nav/app-nav.component';
         FormErrorDirective,
         SoftwareEngineerComponent,
         AppNavComponent,
+        AppFooterComponent,
     ],
     imports: [
         AppRoutingModule,

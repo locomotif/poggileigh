@@ -1,23 +1,29 @@
 @import "../../../assets/scss/global";
 $myRadius: 3px;
+$myHeight: 25px;
+
 .timeline-filter {
   position: fixed;
   margin-top: 0px;
-  right: -20px;
   top: $navbar-height;
   font-size: set-font-size(0.55);
+  width: 100%;
+  height: $myHeight;
+  background-color: $navbar-background-color;
+  z-index: 20;
 
   .timeline-filter-wrapper {
+    right: -20px;
+    position: absolute;
     background-color: $steel;
-    position: relative;
     border-radius: $myRadius;
-    line-height: 25px;
+    line-height: $myHeight;
     cursor: pointer;
 
     .timeline-filter-list ,
     .timeline-filter-chevron {
       width: 20px;
-      height: 25px;
+      height: $myHeight;
       text-align: center;
   }
   .timeline-filter-chevron {
@@ -36,7 +42,7 @@ $myRadius: 3px;
   }
   .timeline-filter-form {
     background-color: inherit;
-    height: 25px;
+    height: $myHeight;
     overflow: hidden;
     float: left;
 
@@ -55,18 +61,18 @@ $myRadius: 3px;
 }
 
 .timeline-filter-legend {
-  position: fixed;
+  position: absolute;
   margin-top: 0px;
   right: -20px;
-  top: $navbar-height;
+  top: 0;
   font-size: set-font-size(0.55);
   color: $steel;
   padding-right: 45px;
-  height: 25px;
-  line-height: 25px;
+  height: $myHeight;
+  line-height: $myHeight;
 
   span {
-    padding-left: 25px;
+    padding-left: $myHeight;
   }
   .myBlue {
     color: $blue;
@@ -80,4 +86,15 @@ $myRadius: 3px;
     .myWhite {
       color: $white;
     }
+}
+
+.timeline-filter-pdf {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  font-size: set-font-size(1);
+  padding-right: 45px;
+  height: $myHeight;
+  line-height: $myHeight;
+  font-weight: bold;
 }

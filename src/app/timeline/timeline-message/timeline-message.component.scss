@@ -16,7 +16,7 @@ div.timeline-message {
   left: 0;
   color: transparent;
   opacity: 0.7;
-  overflow-y: hidden;
+  overflow-y: auto;
 
   h3 {
     color: lighten($tan, 7%);

@@ -1,4 +1,7 @@
 <?php
+if(!isset($_SERVER['HTTP_ORIGIN'])){
+    sendError();
+}
 /**
  * Provide CORS to localhost:8010 during development
  */
@@ -23,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_O
     $name = $post->name;
 
 
-    $headers = 'From: '. $from . "\r\n" .
+    $headers = "From: webmaster@poggileigh.com\r\n" .
         'Reply-To: ' . $from . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
     $to = 'bpoggi@yahoo.com';
@@ -59,13 +62,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_O
 
 } else if($_SERVER['REQUEST_METHOD'] === 'OPTIONS' && in_array(strtolower($_SERVER['HTTP_ORIGIN']), $allow)) {
 } else {
-    header("HTTP/1.0 404 Not Found");
-    echo json_encode([ 
-        "code"=>403, 
-        "msg"=> "Forbidden", 
-        "description"=>"Resource is forbidden." 
-        ]);
-
+    sendError();
 }
 
 
@@ -75,4 +72,14 @@ function getHttpRawPostData()
     $data = stream_get_contents($input);
     fclose($input);
     return $data;
+}
+
+function sendError() {
+    header("HTTP/1.0 404 Not Found");
+    echo json_encode([ 
+        "code"=>403, 
+        "msg"=> "Forbidden", 
+        "description"=>"Resource is forbidden." 
+    ]);
+    exit;
 }
