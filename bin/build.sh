@@ -43,3 +43,9 @@ done
 
 # copy new dist
 cp -r dist/ service/
+
+# add all items in service to git and push
+cd service
+git add .
+git commit -m"Deploy new build - "`date +"%s"`
+git push

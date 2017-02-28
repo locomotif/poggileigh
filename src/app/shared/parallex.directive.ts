@@ -83,7 +83,6 @@ export class ParallexDirective implements OnInit {
             bottom: (window.innerHeight + window.scrollY),
             left: window.scrollX 
         };
-
         let portCoor: any = {
             top: elementCoor.top,
             left: screenCoor.left,

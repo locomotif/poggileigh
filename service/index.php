@@ -15,6 +15,8 @@ $allow = [
     'http://localhost:4200',
     'http://resume.poggileigh.com:4200',
     'http://resume.poggileigh.com:81',
+    'http://poggileigh.com',
+    'http://www.poggileigh.com',
     'http://resume.poggileigh.com'
 ];
 
@@ -30,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_O
     $headers = "From: webmaster@poggileigh.com\r\n" .
         'Reply-To: ' . $from . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
-    $to = 'bpoggi@yahoo.com';
+    $to = 'bernardo@poggileigh.com';
 
     if(!$development) {
         $sent = mail(
