@@ -52,25 +52,26 @@ export class ParallexDirective implements OnInit {
                 this.setAspectRatio();
                 /* set image height to satisfy parallex ratio */
                 this.setImageDims();
-                /* Capture original offsetTop */
-                this.origOffsetTop = this.el.nativeElement.offsetTop;
+
+                /* Capture absolute offsetTop */
+                this.origOffsetTop = 0;
+                let elem = this.el.nativeElement;
+                do {
+                    this.origOffsetTop += elem.offsetTop || 0;
+                    elem = elem.offsetParent;
+                } while(elem)
                 
                 /* set local property image with new coordinates */
                 this.setImage();
-                /* set the location of image based on current scroll-y position */
-                this.moveImage();
-
-                this.observable = RX.Observable.fromEvent(window,'scroll')
-                .debounceTime(0)
-                .subscribe((x) => { if(this.image) this.moveImage() });
+                this.setTranslate();
             });
     }
+
 
     /**
      * move image depending on it current window location
      */
-    private moveImage(): void {
-        let diff: number;
+    private setTranslate(): void {
 
         /* use original coordinates */
         let elementCoor: any = this.image;
@@ -92,20 +93,9 @@ export class ParallexDirective implements OnInit {
 
         /* if image is in viewport */
         if(D2Util.rectInRect(screenCoor, portCoor)) {
-            diff = ((Math.ceil(elementCoor.lastY - window.scrollY)) * parallexConfig.ratio) * -1;
-            this.image.lastY = window.scrollY;
-            this.el.nativeElement.style.marginTop = (this.el.nativeElement.offsetTop + diff) + "px" ;
-
-            /* else reset the image to its original coordinates */
-        } else {
-            this.resetY();
+            this.el.nativeElement.style.transform = "translate3d(0px, " + ((window.scrollY - this.origOffsetTop) * parallexConfig.ratio ) + "px, 0)" ;
         }
-    }
-
-    private resetY(): void {
-            /* reset offsetTop */
-            this.el.nativeElement.style.marginTop = (this.origOffsetTop) + "px" ;
-            this.image.lastY = this.image.top;
+        requestAnimationFrame(this.setTranslate.bind(this));
     }
 
     private setAspectRatio() {
@@ -167,7 +157,6 @@ export class ParallexDirective implements OnInit {
             width: width,
             height: height,
 
-            lastY: top + scrollY,
             offsetTop: offsetTop
         }
     }
@@ -175,8 +164,7 @@ export class ParallexDirective implements OnInit {
     updateImageDims(): void {
         this.pNode = D2Util.getParentDim(this.el.nativeElement);
         this.setImageDims();
-        this.resetY();
         this.setImage();
-        this.moveImage();
+        this.setTranslate();
     }
 }
