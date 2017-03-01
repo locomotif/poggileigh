@@ -20,7 +20,8 @@ export const contactConfig = Object.freeze({
                     "margin-left": "-200px",
                 }
             },
-            title: 'Let\'s collaborate!',
+            title: 'Bernardo Poggi Leigh',
+            subTitle: "bernardo@poggileigh.com",
         }
     ],
 });

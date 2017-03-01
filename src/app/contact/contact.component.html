@@ -1,81 +1,80 @@
 <!--
-Reactive Forms:
-@see https://toddmotto.com/angular-2-forms-reactive
-@todo
-Bind to the user's name, email, and confirm inputs
-Require validation on all inputs
-Show required validation errors
-DIsabling submit until valid
-Submit function
+  Reactive Forms:
+  @see https://toddmotto.com/angular-2-forms-reactive
+  @todo
+  Bind to the user's name, email, and confirm inputs
+  Require validation on all inputs
+  Show required validation errors
+  DIsabling submit until valid
+  Submit function
 -->
 <div class="container-fluid" >
   <div class="row" >
     <div 
-      *ngFor="let section of sections; let i = index" 
-      class="section" 
-      [ngStyle]="setStyle(section.style)" >
-      <div class="img" *ngIf="section.img" >
-        <img appParallex 
-        #parallex="parallex"
-        *ngIf="imgLoaded[i]"
-        [ngStyle]="setStyle(section.img.style)"
-        src="{{ section.img.src }}" />
+       *ngFor="let section of sections; let i = index" 
+       class="section" 
+       [ngStyle]="setStyle(section.style)" >
+       <div class="img" *ngIf="section.img" >
+         <img appParallex 
+            #parallex="parallex"
+            *ngIf="imgLoaded[i]"
+            [ngStyle]="setStyle(section.img.style)"
+            src="{{ section.img.src }}" />
 
-        <img 
-        *ngIf="!imgLoaded[i]"
-        class="loading"
-        src="/assets/images/loading.gif" />
+         <img 
+            *ngIf="!imgLoaded[i]"
+            class="loading"
+            src="/assets/images/loading.gif" />
 
-      </div>
+       </div>
 
-      <svg *ngIf="section.overlay" appOverlay ></svg>
+         <svg *ngIf="section.overlay" appOverlay ></svg>
 
-      <div class="header" *ngIf="section.title" >
-        <h1 class="row title" >
-          {{section.title }}
-        </h1>
-        <h4 class="row sub-title" >
-          {{ section.subTitle }}
-        </h4>
-      </div>
+         <div class="header" *ngIf="section.title" >
+           <h1 class="row title" >
+             {{section.title }}
+           </h1>
+             <h4 class="row sub-title" >
+               {{ section.subTitle }}
+             </h4>
+         </div>
 
-      <div *ngIf="section.description" class="description" >
-        <p *ngFor="let desc of section.description" >
-        {{ desc }}
-        </p>
-      </div>
+           <div *ngIf="section.description" class="description" >
+             <p *ngFor="let desc of section.description" >
+             {{ desc }}
+             </p>
+           </div>
     </div>
 
-    <!-- start: contact form -->
+      <!-- start: contact form -->
     <div class="section contact-me container" >
       <div class="row" >
-        <div class="col-sm-8 offset-sm-1">
-
+        <div class="col-sm-12">
           <form novalidate 
-            class=""  
-            (ngSubmit)="onSubmit(fromUser)"
-            [formGroup]="fromUser">
+             class=""  
+             (ngSubmit)="onSubmit(fromUser)"
+             [formGroup]="fromUser">
 
             <!-- Start: Errors -->
-            <table 
-              *ngIf="hasEmailError()"
-              class="alert alert-danger col-sm-12" >
-              <tbody>
-                <tr>
-                  <td class="icon" >
-                    <i class="fa fa-exclamation-triangle">&nbsp;</i>
-                  </td>
-                  <td class="message" 
-                      *ngIf="fromUser.get('email').hasError('validateEmail') && fromUser.get('email').touched">
-                      Please provide a valid email
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- End: Errors -->
+        <table 
+             *ngIf="hasEmailError()"
+             class="alert alert-danger col-sm-12" >
+             <tbody>
+               <tr>
+                 <td class="icon" >
+                   <i class="fa fa-exclamation-triangle">&nbsp;</i>
+                 </td>
+          <td class="message" 
+              *ngIf="fromUser.get('email').hasError('validateEmail') && fromUser.get('email').touched">
+            Please provide a valid email
+          </td>
+               </tr>
+             </tbody>
+        </table>
+        <!-- End: Errors -->
 
-            <!-- Start: Success -->
-            <table 
+        <!-- Start: Success -->
+        <table 
               *ngIf="sentSuccess"
               class="alert alert-success col-sm-12" >
               <tbody>
@@ -83,63 +82,59 @@ Submit function
                   <td class="icon" >
                     <i class="fa fa-thumbs-o-up">&nbsp;</i>
                   </td>
-                  <td class="message" >
-                      Message is en route! Thank you for taking the time to contact me, and I look forward to the opportunity to collaborate on future projects. 
-                  </td>
+          <td class="message" >
+            Message is en route! Thank you for taking the time to contact me, and I look forward to the opportunity to collaborate on future projects. 
+          </td>
                 </tr>
               </tbody>
-            </table>
-            <!-- End: Errors -->
+        </table>
+        <!-- End: Errors -->
 
-            <!-- Start: Inputs -->
-            <div class="form-group row" >
-              <label for="name" class="col-sm-3 col-form-label" required >Name</label>
-              <div class="col-sm-9" >
-                <input
-                type="text"
-                class="form-control"
-                placeholder="Your full name"
-                formControlName="name">
-              </div>
-            </div>
+        <!-- Start: Inputs -->
+        <div class="form-group row" >
+          <label for="name" class="col-sm-3 col-form-label" required >Name</label>
+          <div class="col-sm-9" >
+            <input
+               type="text"
+               class="form-control"
+               placeholder="Full name"
+               formControlName="name">
+          </div>
+        </div>
 
-            <div class="form-group row" >
-              <label for="email" class="col-sm-3 col-form-label" required >Email address</label>
-              <div class="col-sm-9" >
-                <input
-                type="email"
-                class="form-control"
-                placeholder="Your email address"
-                formControlName="email" >
-              </div>
+          <div class="form-group row" >
+            <label for="email" class="col-sm-3 col-form-label" required >Email address</label>
+            <div class="col-sm-9" >
+              <input
+                 type="email"
+                 class="form-control"
+                 placeholder="Email address"
+                 formControlName="email" >
             </div>
+          </div>
 
-            <div class="form-group row" >
-              <label for="message" class="col-sm-3 col-form-label" required >Message</label>
-              <div class="col-sm-9" >
-                <textarea
-                  class="form-control"
-                  placeholder=""
-                  formControlName="message"></textarea>
+              <div class="form-group row" >
+                <label for="message" class="col-sm-3 col-form-label" required >Message</label>
+                <div class="col-sm-9" >
+                  <textarea
+                     class="form-control"
+                     placeholder=""
+                     formControlName="message"></textarea>
+                </div>
               </div>
-            </div>
             <!-- End: Inputs -->
 
             <!-- Start: Form Actions -->
             <div class="form-group row" >
               <button 
-                type="submit"
-                class="btn btn-primary col-sm-12 btn-large"
-                [disabled]="!fromUser.valid"
-                >Send</button>
+                 type="submit"
+                 class="btn btn-primary col-sm-12 btn-large"
+                 [disabled]="!fromUser.valid"
+                 >Send</button>
             </div>
-            <!-- End: Form Actions -->
+              <!-- End: Form Actions -->
 
           </form>
-        </div>
-        <div class="col-sm-3">
-          <h3>Bernardo Poggi Leigh</h3>
-          <span>bernardo@poggileigh.com</span>
         </div>
       </div>
     </div>

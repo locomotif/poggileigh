@@ -175,9 +175,9 @@ input.ng-touched.ng-invalid {
 		border-color: red; }
 
 .alert td.icon {
-		font-size: 36px;
+		font-size: 27px;
 		vertical-align: middle;
-		padding: 10px;
+		padding: 0px 10px;
 		width: 56px; }
 
 .alert td.message {
