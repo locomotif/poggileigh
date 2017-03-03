@@ -3,6 +3,9 @@ if(!isset($_SERVER['HTTP_ORIGIN'])){
     sendError();
 }
 /**
+ * Temporary script with to deliver email, while learning to develop using angular 2.
+ */
+/**
  * Provide CORS to localhost:8010 during development
  */
 header('Access-Control-Allow-Origin: ' .  $_SERVER['HTTP_ORIGIN']);
@@ -38,7 +41,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_O
         $sent = mail(
             $to,
             $subject,
-            $message,
+            "From: " . $name . "\n" . $message,
             $headers
         );
         if ($sent) {
