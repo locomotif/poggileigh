@@ -32,10 +32,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && in_array(strtolower($_SERVER['HTTP_O
     $subject = "Possible work from resume";
 
 
-    $headers = "From: webmaster@poggileigh.com\r\n" .
+    $headers = "From: bernardo@poggileigh.com\r\n" .
         'Reply-To: ' . $from . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
-    $to = 'bernardo@poggileigh.com';
+    $to = 'bpoggi@yahoo.com';
 
     if(!$development) {
         $sent = mail(
