@@ -1,5 +1,5 @@
 <?php
-$file = './BPLresume_June2017.pdf';
+$file = './Bernardo_P_Leigh_Resume.pdf';
 $filesize = filesize($file);
 $alias = "BernardoPoggiLeigh_Resume.pdf";
 
