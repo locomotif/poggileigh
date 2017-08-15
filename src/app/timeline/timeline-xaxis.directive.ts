@@ -106,24 +106,35 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
     private render() {
         // create the axis
         if( this.rendered) {
+
+            // update data bound to ticks
+            d3.select(this.el.nativeElement)
+                .selectAll("text")
+                .datum((d, i, nodes) => {
+                    let j: any;
+                    let verified: boolean;
+                    for(j in this.dateValue){
+                        verified = false;
+                        if (d === this.dateValue[j]){
+                            verified = true;
+                        }
+                    }
+                    if (!verified) {
+                        nodes[i] = null;
+                    }
+                });
+
+            // update axis tick values
             this.axis
             .scale(this.scale)
             .tickValues(this.dateValue);
 
+            // execute animation of updated xAxis
             d3.select(this.el.nativeElement).transition("timeline_xpath")
             .duration(300)
             .call(this.axis)
             .selectAll("text")
-            // not sure why the internal data is not matching the updated
-            // tickValues to this.dataValue. For now I have to do some garbage
-            // collection
-            .filter((d,i) => {
-                for(let j in this.dateValue){
-                    if (d === this.dateValue[j]){
-                        return true;
-                    }
-                }
-            })
+            .filter((d,i) => ( typeof d !== 'undefined' ))
             .attr("text-id", (d, i) => {if(this.conf.data[i]) return this.conf.data[i]['id']; else return "";})
             .attr("text-color", (d, i) => {if(this.conf.data[i]) return this.labelColor[this.conf.data[i]['eventType']]; else return "myWhite";})
                  .attr("y", 0)
