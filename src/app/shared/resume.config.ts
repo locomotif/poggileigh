@@ -180,4 +180,16 @@ export const resumeConfig: TimelineEvent[] = [
             width: 400
         }
     },
+    // webpack.codacter.com
+    {
+        parentId: 0,
+        eventType: "projects",
+        start: new Date(2017,6,14),
+        end: new Date(),
+        message: '<h3>webpack.codacter.com <a target="_blank" href="//webpack.codacter.com/" >&nbsp;<i class="fa fa-external-link" >&nbsp;</i></a></h3><p class="">Codacter is a sandbox project for the current discovery phase of facebook\'s JavaScript library <a class="" href="//facebook.github.io/react/" target="_blank">React</a>, <a class="" href="//redux.js.org/" target="_blank">Redux</a> and <a class="" href="//fela.js.org/" target="_blank">Fela</a>.</p>',
+        rect: {
+            height: 200,
+            width: 400
+        }
+    }
 ];
