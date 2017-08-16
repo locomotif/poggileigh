@@ -84,26 +84,36 @@ export class TimelineFilterComponent implements OnInit, OnChanges {
     }
 
     private toggleFilter(event): void {
+        let filter = event.target.getAttribute('data-target');
+        filter = filter ? filter.toLowerCase() : null;
         this.show = !this.show;
+        if (filter && this.show) {
+            this.toggleCheckbox(event, filter);
+        }
     }
 
     private updateTimeline(filter: any) {
         this.applyFilter.emit(this.activeFilter);
     }
 
-    private toggleCheckbox(e, value) {
+    private isChecked(filter): boolean {
+        return this.checkboxState[filter];
+    }
+
+    private toggleCheckbox(e, filter) {
         e.stopPropagation();
         let c: any;
 
-        for(let i in this.filterGroup.controls){
-            if(i == value) {
+        for (let i in this.filterGroup.controls){
+            if(i == filter) {
                 c = this.filterGroup.controls[i];
             }
         }
-        if(this.checkboxState[value]) {
-            this.removeFilter(value, c);
+
+        if (this.isChecked(filter)) {
+            this.removeFilter(filter, c);
         } else {
-            this.addFilter(value, c);
+            this.addFilter(filter, c);
         }
     }
 
