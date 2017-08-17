@@ -28,6 +28,9 @@ a:hover, a:active, a:visited, a {
 		color: #F6851F;
 		text-decoration: none; }
 
+.clickable {
+		cursor: pointer; }
+
 /**
   * Colors are defined in _variables.scss. This is a means to assign those variables just to classes
   */

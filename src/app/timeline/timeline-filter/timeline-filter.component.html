@@ -34,8 +34,9 @@
         <div class="timeline-filter-form" appDivExpand [myDivExpandState]="show" >
           <form novalidate class="form-inline" [formGroup]="filterGroup" >
             <div *ngFor="let option of options" class="checkbox" (click)="toggleCheckbox($event, option)">
-              <label [for]="option" >
+              <label [for]="option" [ngClass]="'clickable'" >
                 <input type="checkbox" 
+                       [ngClass]="'clickable'"
                        [checked]="checkboxState[option]"
                        [value]="checkboxState[option]"
                        formControlName="{{option}}" 

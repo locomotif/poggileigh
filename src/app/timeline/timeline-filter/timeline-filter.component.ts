@@ -41,6 +41,12 @@ export class TimelineFilterComponent implements OnInit, OnChanges {
         experience: 'Work Experience',
         education: 'Education',
     }
+    private invLabels: any = {
+        'Intro': 'introduction',
+        "Projects": 'projects',
+        'Work Experience': 'experience',
+        'Education': 'education',
+    }
 
     public filterGroup: FormGroup;
     @Output("filterTimeline") applyFilter: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -85,7 +91,7 @@ export class TimelineFilterComponent implements OnInit, OnChanges {
 
     private toggleFilter(event): void {
         let filter = event.target.getAttribute('data-target');
-        filter = filter ? filter.toLowerCase() : null;
+        filter = filter ? this.invLabels[filter] : null;
         this.show = !this.show;
         if (filter && this.show) {
             this.toggleCheckbox(event, filter);
@@ -138,10 +144,12 @@ export class TimelineFilterComponent implements OnInit, OnChanges {
     private updateColorState(): void {
         let atleastone: Boolean = false;
         for(let i in this.checkboxState) {
-            if(this.checkboxState[i])
+            if(this.checkboxState[i]) {
                 atleastone = true;
+            }
             this.checkboxLabelColor[i] = {};
             this.checkboxLabelColor[i][eventTypeColor[i]] = this.checkboxState[i];
+            this.checkboxLabelColor[i]['clickable'] = true;
         }
 
         // if all false then set all colors to true
