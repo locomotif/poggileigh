@@ -120,7 +120,7 @@ export class TimelineXaxisDirective implements OnInit, OnChanges, OnDestroy {
                         }
                     }
                     if (!verified) {
-                        nodes[i] = null;
+                        delete nodes[i];
                     }
                 });
 
